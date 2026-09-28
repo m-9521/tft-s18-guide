@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>云顶之弈 S18 / 18.3b · 强势阵容与开局选阵思路</title>
+<style>
+:root{
+  --bg:#0f1320; --panel:#171c2b; --panel2:#1e2536; --line:#2a3247;
+  --fg:#e7ebf5; --dim:#93a0bd; --gold:#f2c66d; --teal:#4ec9b0; --violet:#a78bfa;
+  --blue:#5b9dff; --grey:#8d9bb5; --red:#ef6b6b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--teal);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 90px}
+
+header.hero{
+  background:linear-gradient(160deg,#1b2236 0%,#12172a 55%,#0f1320 100%);
+  border-bottom:1px solid var(--line); padding:52px 20px 40px;
+}
+.hero-inner{max-width:1080px;margin:0 auto}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.badge{
+  font-size:12.5px;letter-spacing:.4px;padding:5px 11px;border-radius:999px;
+  background:rgba(78,201,176,.1);border:1px solid rgba(78,201,176,.3);color:var(--teal);
+}
+.badge.gold{background:rgba(242,198,109,.1);border-color:rgba(242,198,109,.32);color:var(--gold)}
+h1{font-size:clamp(26px,4.2vw,38px);line-height:1.3;margin:0 0 12px;font-weight:700}
+h1 .accent{color:var(--gold)}
+.lede{color:var(--dim);max-width:70ch;margin:0}
+
+nav.toc{
+  position:sticky;top:0;z-index:20;background:rgba(15,19,32,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin:0 -20px 34px;padding:11px 20px;
+  display:flex;gap:6px;flex-wrap:wrap;
+}
+nav.toc a{font-size:13.5px;color:var(--dim);padding:5px 11px;border-radius:7px}
+nav.toc a:hover{background:var(--panel2);color:var(--fg)}
+
+section{margin:52px 0 0;scroll-margin-top:64px}
+h2{font-size:22px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:4px;height:20px;border-radius:2px;background:var(--gold);display:inline-block}
+h3{font-size:17px;margin:30px 0 10px;color:var(--gold)}
+.sub{color:var(--dim);font-size:14.5px;margin:0 0 22px}
+.callout{
+  background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--violet);
+  border-radius:8px;padding:15px 18px;margin:18px 0;color:var(--fg);font-size:15px;
+}
+.callout b{color:var(--violet)}
+
+/* table */
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:18px 0 14px}
+.chip{
+  border:1px solid var(--line);background:var(--panel);color:var(--dim);
+  padding:6px 13px;border-radius:999px;font-size:13.5px;cursor:pointer;font-family:inherit;
+  transition:.15s;
+}
+.chip:hover{border-color:var(--teal);color:var(--fg)}
+.chip.on{background:rgba(78,201,176,.14);border-color:var(--teal);color:var(--teal)}
+#q{
+  flex:1;min-width:180px;background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  color:var(--fg);padding:8px 13px;font-size:14px;font-family:inherit;outline:none;
+}
+#q:focus{border-color:var(--teal)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:820px}
+th{
+  background:var(--panel2);color:var(--dim);font-weight:600;font-size:13px;text-align:left;
+  padding:11px 13px;white-space:nowrap;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;
+}
+th:hover{color:var(--fg)}
+th.n,td.n{text-align:right;font-variant-numeric:tabular-nums}
+td{padding:12px 13px;border-bottom:1px solid rgba(42,50,71,.6);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(91,157,255,.05)}
+.name{font-weight:600;white-space:nowrap}
+.gate{color:var(--dim);font-size:13px;line-height:1.6;min-width:220px}
+.tier{
+  display:inline-block;width:26px;text-align:center;font-weight:700;border-radius:6px;font-size:13px;padding:2px 0;
+}
+.T-S{background:rgba(242,198,109,.16);color:var(--gold);border:1px solid rgba(242,198,109,.4)}
+.T-A{background:rgba(167,139,250,.16);color:var(--violet);border:1px solid rgba(167,139,250,.4)}
+.T-B{background:rgba(91,157,255,.14);color:var(--blue);border:1px solid rgba(91,157,255,.36)}
+.T-C{background:rgba(141,155,181,.14);color:var(--grey);border:1px solid rgba(141,155,181,.34)}
+.T-D{background:rgba(239,107,107,.12);color:var(--red);border:1px solid rgba(239,107,107,.32)}
+.line-tag{font-size:12.5px;color:var(--dim);white-space:nowrap}
+.hl{color:var(--teal);font-weight:600}
+.count{color:var(--dim);font-size:13px;margin-left:auto}
+
+/* signals */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:17px 18px}
+.card .num{
+  display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:6px;background:rgba(242,198,109,.15);color:var(--gold);font-size:13px;font-weight:700;margin-right:8px;
+}
+.card h4{margin:0 0 8px;font-size:15.5px;display:flex;align-items:center}
+.card p{margin:0;font-size:14px;color:var(--dim);line-height:1.7}
+.card .map{margin-top:11px;font-size:13.5px;color:var(--fg);line-height:1.85;
+  border-top:1px dashed var(--line);padding-top:10px}
+.card .map span{color:var(--teal)}
+
+/* flow */
+ol.flow{list-style:none;padding:0;margin:20px 0 0;counter-reset:f}
+ol.flow li{
+  counter-increment:f;position:relative;padding:14px 16px 14px 54px;background:var(--panel);
+  border:1px solid var(--line);border-radius:10px;margin-bottom:10px;font-size:14.8px;
+}
+ol.flow li::before{
+  content:counter(f);position:absolute;left:15px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);
+  color:var(--gold);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;
+}
+ol.flow li b{color:var(--gold)}
+ol.flow li code{background:rgba(78,201,176,.1);color:var(--teal);padding:1px 6px;border-radius:4px;font-size:13px}
+
+/* templates */
+.tmpl{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:12px}
+.tmpl summary{cursor:pointer;font-weight:600;font-size:15.5px;list-style:none;display:flex;align-items:center;gap:10px}
+.tmpl summary::-webkit-details-marker{display:none}
+.tmpl summary::after{content:"+";margin-left:auto;color:var(--dim);font-size:19px}
+.tmpl[open] summary::after{content:"−"}
+.tmpl .pill{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--panel2);color:var(--dim);border:1px solid var(--line)}
+.tmpl .body{margin-top:12px;font-size:14.5px;color:var(--dim);line-height:1.8}
+.tmpl .body strong{color:var(--fg);font-weight:600}
+.tmpl .body em{color:var(--gold);font-style:normal}
+
+/* timeline */
+ul.tl{list-style:none;padding:0;margin:18px 0 0;border-left:2px solid var(--line)}
+ul.tl li{position:relative;padding:0 0 20px 24px}
+ul.tl li::before{content:"";position:absolute;left:-7px;top:7px;width:11px;height:11px;border-radius:50%;
+  background:var(--teal);box-shadow:0 0 0 3px var(--bg)}
+ul.tl .d{font-size:12.5px;color:var(--teal);font-variant-numeric:tabular-nums;letter-spacing:.5px}
+ul.tl p{margin:3px 0 0;font-size:14.5px;color:var(--dim)}
+ul.tl p b{color:var(--fg)}
+ul.tl .risk{color:var(--red)}
+ul.tl .gain{color:var(--gold)}
+
+/* takeaways */
+ol.tk{padding-left:0;list-style:counter-reset decimal;margin:18px 0 0;counter-reset:t}
+ol.tk li{counter-increment:t;position:relative;padding:0 0 16px 46px;font-size:15px;color:var(--dim)}
+ol.tk li::before{content:counter(t);position:absolute;left:0;top:1px;width:30px;height:30px;border-radius:8px;
+  background:var(--panel2);border:1px solid var(--line);color:var(--gold);font-weight:700;font-size:14px;
+  display:flex;align-items:center;justify-content:center}
+ol.tk li b{color:var(--fg)}
+
+footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:var(--grey);font-size:13px;line-height:1.9}
+@media(max-width:640px){
+  body{font-size:15px}
+  header.hero{padding:36px 20px 28px}
+  table{min-width:760px}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="badges">
+      <span class="badge gold">赛季 S18</span>
+      <span class="badge gold">版本 18.3 / 18.3b</span>
+      <span class="badge">榜单更新 2026-09-24</span>
+      <span class="badge">钻石及以上 · 最近五天 · 选手评级</span>
+    </div>
+    <h1>云顶之弈 <span class="accent">S18 · 18.3b</span><br>强势阵容与开局选阵思路</h1>
+    <p class="lede">个人学习笔记。数值取自云顶大数据 datatft.com 的公开阵容评级接口（共 31 套，2026-09-24 快照）；结论、优先级排序与决策流程是我自己归纳的，不代表原站观点。页面只保留可核实的条件与数字，不复述原站的攻略行文。</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <a href="#meta">口径</a>
+  <a href="#meta">榜单</a>
+  <a href="#signals">五类定阵信号</a>
+  <a href="#flow">决策流程</a>
+  <a href="#lines">节奏线模板</a>
+  <a href="#news">近 14 天变动</a>
+  <a href="#tk">思路总结</a>
+</nav>
+
+<section id="meta">
+  <h2>版本前提：这是一个"没有版本答案"的版本</h2>
+  <p class="sub">先看这一条，否则下面的榜单没有意义。</p>
+  <div class="callout">
+    18.3b 的阵容分布<b>极度分散</b>：全表出场率最高的一套（重装厄斐琉斯）也只有 <b>1.02%</b>，S 级头名 6主宰婕拉仅 <b>0.33%</b>。
+    没有任何一套阵是"人人抢"的公共选择。这直接决定了开局思路是 ——
+    <b>读自己的发牌信号，去认领别人没占的空位</b>，而不是套用固定阵容。
+  </div>
+</section>
+
+<section id="list">
+  <h2>完整阵容榜单</h2>
+  <p class="sub">点表头可排序；「定阵门票」是该阵容成立的最低开局条件。</p>
+
+  <div class="controls">
+    <button class="chip on" data-tier="S">S</button>
+    <button class="chip on" data-tier="A">A</button>
+    <button class="chip on" data-tier="B">B</button>
+    <button class="chip" data-tier="C">C</button>
+    <button class="chip" data-tier="D">D</button>
+    <input id="q" type="search" placeholder="筛选：阵容名 / 羁绊 / 门票关键词，如 纹章、95、法系">
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th data-k="tier">级</th>
+        <th data-k="name">阵容</th>
+        <th class="n" data-k="pr">出场%</th>
+        <th class="n" data-k="top4">前四%</th>
+        <th class="n" data-k="wn">登顶%</th>
+        <th class="n" data-k="pl">均名</th>
+        <th data-k="line">节奏线</th>
+        <th data-k="diff">难度</th>
+        <th>定阵门票</th>
+      </tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="signals">
+  <h2>开局选阵的五类信号</h2>
+  <p class="sub">按优先级从高到低。低优先级信号用来"在多个可行解里挑一个"，不能用来"造一个不存在的解"。</p>
+
+  <div class="grid">
+    <div class="card">
+      <h4><span class="num">1</span>转职纹章 <span class="line-tag">— 见到即可定阵</span></h4>
+      <p>唯一"给了就锁定"的硬门票。S18 的核心资源不是装备完美度，而是铲子/纹章，它无法用其他方式补齐。</p>
+      <div class="map">
+        <span>黑荆棘纹章</span> → 黑荆棘运营沙皇<br>
+        <span>地狱火纹章</span> → 地狱火艾希 / 4主宰艾希95<br>
+        <span>迅捷射手纹章</span> → 高迅射厄斐（没转直接不玩）<br>
+        <span>护卫纹章</span> → 6护卫蛇女<br>
+        <span>主宰纹章</span> → 6主宰婕拉（加速器，非门票）
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="num">2</span>专属机制海克斯 <span class="line-tag">— 海克斯即阵容</span></h4>
+      <p>S18 有一批"拿到就该拐线"的机制型强化，2-1 / 3-2 是主要观察窗口。</p>
+      <div class="map">
+        <span>魔女黑暗仪式</span> → 黑暗仪式伊莉丝<br>
+        <span>世纪和解</span> → 同名阵<br>
+        <span>宝宝学院</span> → 宝宝学院阿卡丽<br>
+        <span>后防蓝图</span> → 按卡面最后一个羁绊发纹章，可用来定向拿非预期转职
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="num">3</span>装备组件方向 <span class="line-tag">— 定物理线 / 法系线</span></h4>
+      <p>2 阶段选秀前把已到的散件归一次类，就足够确定大方向。</p>
+      <div class="map">
+        <span>大棒 / 眼泪（法系）</span> → 婕拉、神谕狐狸、黑荆棘裁决、拉露恩95、赌沙皇<br>
+        <span>大剑 / 拳套 / 反曲弓（物理）</span> → 地狱火艾希、高森林EZ、厄斐豹女、重装厄斐琉斯<br>
+        <span>没方向</span> → 别硬凑，走大经济 95 线，装备后面再挑
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="num">4</span>低费体系牌重复度 <span class="line-tag">— 定赌狗 / 运营</span></h4>
+      <p>这是 2-1 前唯一能观察到发牌倾向的窗口。重复度决定你敢不敢卡等级 D。</p>
+      <div class="map">
+        <span>维迦+奥恩+乐芙兰 齐</span> → 森林小法（4/5 追三）<br>
+        <span>卡兹克开局</span> → 森林螳螂 / 赌沙皇<br>
+        <span>芸阿娜多</span> → 日蚀芸阿娜 / 赌芸阿娜<br>
+        <span>沃里克多 / 提莫开局</span> → 当前版本负收益，别做
+      </div>
+    </div>
+
+    <div class="card">
+      <h4><span class="num">5</span>经济类海克斯 <span class="line-tag">— 95 线的入场券</span></h4>
+      <p>德莱文95、4主宰艾希95、拉露恩95、高森林EZ 的门票写的是同一句话："大经济海克斯开局"。含义是：95 线不是阵容选择，而是<b style="color:var(--fg)">经济选择</b> —— 只有拿到能撑到 9 级的利息/免费刷新，才允许自己不追三、不抢质量。</p>
+    </div>
+
+    <div class="card">
+      <h4><span class="num">＋</span>野怪掉落 <span class="line-tag">— 辅助信号</span></h4>
+      <p>峡谷野怪爆出的体系牌（典型是卡兹克）不改变主线判断，但决定 2 阶段能不能稳住血。过渡期掉血 &gt; 30 时，优先抬质量而不是继续等设备。</p>
+    </div>
+  </div>
+</section>
+
+<section id="flow">
+  <h2>定阵决策流程</h2>
+  <p class="sub">把五类信号合成一条线，2-1 前走完前四步就该有结论。</p>
+  <ol class="flow">
+    <li>有 <b>转职纹章</b> 或 <b>专属机制海克斯</b>？ → 定阵、锁死，其余信号全部忽略。</li>
+    <li><b>大经济海克斯</b> + 血线健康（≤2 连败）？ → 定 <code>95 运营线</code>，装备只拿通用件。</li>
+    <li>某一系 1~2 费<b>重复度 ≥ 5</b>？ → 走 <code>赌狗线</code>，卡 4/5 或 6/7 级。</li>
+    <li><b>装备组件方向明确</b>？ → 走对应的物理 / 法系 <code>速升 8</code> 阵。</li>
+    <li>以上都不成立 → <b>空城 / 连败抢铲子</b>，把决策推迟到 3-2。</li>
+  </ol>
+  <div class="callout" style="border-left-color:var(--red)">
+    <b style="color:var(--red)">3-2 是分水岭。</b> 之前可以自由换线，之后换线必掉名次 —— 你已经把经济结构锁在了那条线上。
+  </div>
+</section>
+
+<section id="lines">
+  <h2>四条节奏线的开局模板</h2>
+  <p class="sub">展开查看。节奏线一局只能选一条，四条线的经济模型互斥 —— 这是我按各阵的等级门槛与 D 牌位置归出来的分组。</p>
+
+  <details class="tmpl" open>
+    <summary>速升 8 运营 <span class="pill">代表：6主宰婕拉</span><span class="pill">均名 3.80 · 前四 63.4%</span></summary>
+    <div class="body">
+      特征是<strong>全程不 D，把钱花在人口上</strong>。2 阶段只升级、用体系前排和打工卡带主C 的装备稳血；3 阶段继续抬人口；
+      <em>8 级才开第一波 D</em>，目标是主C 二星，到手即收手。转职在这条线上是"加速器"而不是门票 —— 有则抬上限，没有也能成型。
+      风险点：8 级 D 空就同时失去血量和经济，所以 7 级前掉血超过阈值时要提前 D 补质量。
+    </div>
+  </details>
+
+  <details class="tmpl">
+    <summary>4/5 级追三 <span class="pill">代表：森林小法</span><span class="pill">均名 3.58 · 前四 67.3%（全表最优）</span></summary>
+    <div class="body">
+      <em>开局就得决定，最晚 3-1。</em>门票是一费的重复度：维迦、奥恩、乐芙兰都能追三才成立。
+      打法是卡低利息在 4~5 级大 D 一波把核心追出三星，之后才恢复升级。
+      这条线<strong>不吃后期卡，吃质量差</strong> —— 一旦对面也在追同一批牌，直接崩，所以发牌前先扫一眼对手有没有抢同样的体系。
+    </div>
+  </details>
+
+  <details class="tmpl">
+    <summary>连败抢铲 <span class="pill">代表：黑荆棘运营沙皇</span><span class="pill">均名 4.06 · 登顶 17.9%</span></summary>
+    <div class="body">
+      主动牺牲 2 阶段血量换选秀优先权，<strong>目标是铲子而不是装备强度</strong>；选秀抢不到铲就退而拿大棒。
+      海克斯全程偏向经济类来补回连败损失的血线，7 级可视情况小 D 稳血。
+      成型点在 8 级：用二星四费当献祭位把纹章转移给真正的输出核，再上人口补二星五费。<em>血线管理是唯一难点</em>，滑太快会在拿不到纹章的情况下直接出局。
+    </div>
+  </details>
+
+  <details class="tmpl">
+    <summary>机制收菜 <span class="pill">代表：黑暗仪式伊莉丝</span><span class="pill">前四仅 41.3% · 高上限</span></summary>
+    <div class="body">
+      强度全押在机制层数结算的那一次上，<strong>没收到够高层数就等于没有这套阵</strong>（该阵前四率 41.3%，全表垫底）。
+      前期靠魔女换怪叠层，装备只保核心前排两件、其余全输出，且只需一个前排。
+      3-2 升 6 慢 D 追三星，<em>第一次结算的层数是决定项</em>；结算后可以把版面切到重装以提高容错。
+      结论：只在专属海克斯到手、且没人抢同一体系时才做。
+    </div>
+  </details>
+
+  <details class="tmpl">
+    <summary>95 运营 <span class="pill">代表：德莱文95 / 拉露恩95 / 4主宰艾希95</span><span class="pill">登顶 19~23.5%</span></summary>
+    <div class="body">
+      四条线里唯一<em>靠经济强化而不是靠发牌</em>成立的一条：门票就是大经济海克斯，没有就别走。
+      全程不 D、不抢质量，上 9 之后才开搜，全二星即成型，优先给主C 和远古巨龙做装。
+      特点是<strong>前四率普遍偏低、登顶率最高</strong>（德莱文95 前四 54.7% 但登顶 23.5%）—— 成型就赢，不成型就第八。
+      站位与装备冲突要额外记：例如随机目标的普攻型机制会打断"持续锁定同一目标"类加成，两者不要叠在同一张卡上。
+    </div>
+  </details>
+</section>
+
+<section id="news">
+  <h2>最近 14 天的新增与变动</h2>
+  <p class="sub">2026-09-14 → 09-28，按原站机制情报的更新时间筛出。热修频繁，榜单排名的半衰期大约一周。</p>
+  <ul class="tl">
+    <li><span class="d">2026-09-27</span><p><b>拉克丝不存在跨玩家羁绊互斥</b>，八家可拿同一羁绊的拉克丝 —— 不必因"别人在用"而放弃。<span class="gain">利好拉露恩95 / 魔女线。</span></p></li>
+    <li><span class="d">2026-09-24</span><p>阵容榜单更新（本页数值基准）。同日魔女 250 层结算给的拉克丝<b>必定是魔女拉克丝</b>。</p></li>
+    <li><span class="d">2026-09-23</span><p>宝宝学院与手游口径统一：<b>基础 3% 双强对一费卡翻倍计算，即一费卡默认吃 6% 双强</b>。一费赌狗的隐性 buff。</p></li>
+    <li><span class="d">2026-09-23</span><p><b>三处数值修正同时影响三套阵：</b><br>· 物理奈德丽护甲穿透回落到 40% → <span class="risk">厄斐豹女实际被削</span><br>· 荆棘鸟怪基础穿甲下调 → <span class="risk">影响高迅射厄斐</span><br>· 阿卡丽巫妖触发伤害修正，且「Missed Connections」不再给 2 个阿卡丽 → <span class="risk">宝宝学院阿卡丽门票变差</span></p></li>
+    <li><span class="d">2026-09-19</span><p><b>卡兹克的转职掉场规则：</b>携带其四个可进化羁绊之一的纹章、并选择进化该羁绊时，<em>纹章会自动掉出场</em>；反复给会反复掉。<span class="risk">森林螳螂给转职前要排好进化顺序。</span></p></li>
+    <li><span class="d">2026-09-17</span><p><b>拉露恩月相只由最强的那只推进</b>，多只共享月相进度 → 双拉露恩可行；同期确认「后防蓝图」按卡面最后一个羁绊发纹章，给黛安娜时实际产出毁约者纹章而非先锋，可用来定向拿转职。</p></li>
+    <li><span class="d">2026-09-14 前后</span><p>云铲差异：手游的变形术类仙灵只在每回合第一次出现时触发，<b>靠卡经济刷 4 变 5 在手游基本不成立</b>；端游仍可正常刷新。</p></li>
+  </ul>
+</section>
+
+<section id="tk">
+  <h2>游戏思路总结</h2>
+  <ol class="tk">
+    <li><b>版本是"信号驱动"而非"阵容驱动"。</b> 31 套阵出场率全在 1% 上下。开局唯一正确的问题不是"今天玩什么"，而是"这局给了我什么门票、别人没占什么位置"。</li>
+    <li><b>门票有严格优先级。</b> 转职 ≈ 专属机制海克斯 &gt; 经济海克斯 &gt; 装备组件方向 &gt; 低费重复度。越靠前越"见到即锁死"。</li>
+    <li><b>核心资源是铲子/纹章，不是装备完美度。</b> 多套 S/A 阵的强度挂在一个转职上，2 阶段选秀抢铲的优先级高于一切散件合成。</li>
+    <li><b>节奏线一局只选一次，3-2 前锁死。</b> 速升8 / 95运营 / 6-7追三 / 4-5追三 四条线经济模型互斥，中途换线等于同时放弃两条线的收益。</li>
+    <li><b>上限来自空位，不来自数据。</b> 德莱文95 前四率只有 54.7% 却是全表登顶第一（23.5%）—— 这类阵的胜负手是"有没有人跟我抢"。开局读对手，同阵容少于 2 家就把权重往上提。</li>
+    <li><b>结论半衰期约一周。</b> 选阵逻辑可以长期复用，具体阵容排名建议隔几天重拉一次数据。</li>
+  </ol>
+</section>
+
+<footer>
+  <b>数据源与授权</b><br>
+  阵容统计数值来自云顶大数据 datatft.com 公开接口（<code>api.datatft.com/team/rank</code>、<code>team/strategy</code>），
+  榜单快照时间 2026-09-24 22:22，统计口径为钻石及以上分段最近五天、选手评级；机制变动条目按原站信息差的更新时间整理。<br>
+  本页仅保留可核实的条件与数字，节奏线分组、五类信号优先级、决策流程与全部结论均为个人归纳。
+  阵容名称、羁绊与数值归属 Riot Games / 腾讯；原站攻略行文与社区情报内容的版权归 datatft.com 及其作者所有，本页未收录其原文表述。<br>
+  个人学习笔记，非商用，不含任何官方或站点背书。生成于 2026-09-28。
+</footer>
+
+</div>
+
+<script>
+const DATA=[
+{tier:"S",name:"6主宰婕拉",pr:0.33,top4:63.4,wn:16.7,pl:3.80,line:"速升8级",diff:"简单",gate:"6 主宰 / 婕拉 2 星 3 装 / 主件大天使"},
+{tier:"S",name:"黑荆棘运营沙皇",pr:0.05,top4:57.7,wn:17.9,pl:4.06,line:"速升8级",diff:"简单",gate:"黑荆棘纹章 / 阿兹尔 2 星 3 装 / 4+ 黑荆棘"},
+{tier:"S",name:"地狱火艾希",pr:0.23,top4:55.1,wn:21.3,pl:4.11,line:"速升8级",diff:"简单",gate:"地狱火纹章 / 艾希 / 物理件起手"},
+{tier:"S",name:"赌沙皇",pr:0.14,top4:53.5,wn:11.6,pl:4.33,line:"6/7级追三星",diff:"适中",gate:"阿兹尔 2 星 3 装 / 卡兹克 / 3 灵魂莲华"},
+{tier:"S",name:"黑暗仪式伊莉丝",pr:0.14,top4:41.3,wn:14.5,pl:4.93,line:"6/7级追三星",diff:"适中",gate:"黑暗仪式海克斯 / 伊莉丝+蛇女+莫甘娜"},
+{tier:"A",name:"森林小法",pr:0.30,top4:67.3,wn:20.8,pl:3.58,line:"4/5级追三星",diff:"适中",gate:"维迦 3 星 / 奥恩 3 星 / 乐芙兰 3 星"},
+{tier:"A",name:"拉露恩95",pr:0.57,top4:66.0,wn:20.4,pl:3.64,line:"95运营",diff:"适中",gate:"拉露恩 2 件以上攻击装 / 法系过渡"},
+{tier:"A",name:"4主宰艾希95",pr:0.22,top4:61.2,wn:19.1,pl:3.87,line:"95运营",diff:"适中",gate:"艾希 2 件以上攻击装 / 莲华 ≤7 / 经济强化"},
+{tier:"A",name:"厄斐豹女",pr:0.60,top4:63.1,wn:8.9,pl:3.96,line:"速升8级",diff:"简单",gate:"厄斐琉斯 3 装 / 奈德丽 3 装 / 物理起手"},
+{tier:"A",name:"德莱文95",pr:0.78,top4:54.7,wn:23.5,pl:4.11,line:"95运营",diff:"适中",gate:"德莱文 2 件以上攻击装 / 8 人口 / 经济强化"},
+{tier:"A",name:"高森林EZ",pr:0.50,top4:55.7,wn:16.1,pl:4.16,line:"95运营",diff:"适中",gate:"EZ 2 件以上攻击装 / 永恒之森 3+"},
+{tier:"A",name:"森林螳螂",pr:0.23,top4:55.7,wn:14.8,pl:4.20,line:"7/8级追三星",diff:"适中",gate:"卡兹克 2 星 3 装 / EZ / 黛安娜 / 卡尔"},
+{tier:"A",name:"神谕狐狸",pr:0.48,top4:56.5,wn:11.7,pl:4.20,line:"速升8级",diff:"适中",gate:"阿狸 3 装 / 莫甘娜 / 苍蓝哨戒 / 神谕 3+"},
+{tier:"A",name:"黑荆棘裁决",pr:0.78,top4:55.8,wn:11.7,pl:4.23,line:"速升8级",diff:"适中",gate:"索拉卡 2 件以上攻击装 / 法系过渡"},
+{tier:"B",name:"高迅射厄斐",pr:0.06,top4:61.3,wn:10.5,pl:4.03,line:"速升8级",diff:"简单",gate:"迅捷射手纹章（缺则不成立）"},
+{tier:"B",name:"6护卫蛇女",pr:0.13,top4:56.5,wn:10.7,pl:4.18,line:"7/8级追三星",diff:"适中",gate:"护卫纹章最佳 / 或魔女法系件起手"},
+{tier:"B",name:"永森莲华EZ",pr:0.06,top4:57.3,wn:9.7,pl:4.19,line:"速升8级",diff:"适中",gate:"永恒之森过渡 / 出场率极低，空位可选"},
+{tier:"B",name:"重装厄斐琉斯",pr:1.02,top4:56.1,wn:8.7,pl:4.27,line:"速升8级",diff:"适中",gate:"物理件起手（全表出场率第一）"},
+{tier:"B",name:"剑圣",pr:0.11,top4:54.1,wn:9.8,pl:4.32,line:"速升8级",diff:"简单",gate:"易适配神器到手 / 或经济强化"},
+{tier:"B",name:"日蚀芸阿娜",pr:0.05,top4:51.0,wn:12.4,pl:4.47,line:"6级追三星",diff:"简单",gate:"芸阿娜 + 1 张灵魂莲华 / 经济强化为前提"},
+{tier:"B",name:"宝宝学院阿卡丽",pr:0.06,top4:52.5,wn:8.5,pl:4.41,line:"4/5级追三星",diff:"简单",gate:"宝宝学院海克斯 / 体系牌重复度高"},
+{tier:"B",name:"主宰女警",pr:0.09,top4:52.4,wn:7.9,pl:4.44,line:"6/7级追三星",diff:"简单",gate:"3 魔女 / 物理件起手"},
+{tier:"B",name:"赌芸阿娜",pr:0.01,top4:51.9,wn:9.4,pl:4.47,line:"6/7级追三星",diff:"简单",gate:"芸阿娜重复度高 / 或经济强化"},
+{tier:"C",name:"猎手豹女",pr:0.03,top4:66.4,wn:10.7,pl:3.78,line:"速升8级",diff:"简单",gate:"物理件起手。数值不差但样本极小，黑马位"},
+{tier:"C",name:"高野怪驻灵",pr:0.12,top4:51.1,wn:9.5,pl:4.46,line:"95运营",diff:"适中",gate:"驻灵数量多 / 法系件起手"},
+{tier:"C",name:"黑荆棘赌狼人",pr:0.10,top4:50.8,wn:5.4,pl:4.54,line:"6/7级追三星",diff:"适中",gate:"沃里克重复度高 / 或适配神器"},
+{tier:"C",name:"世纪和解",pr:0.06,top4:42.3,wn:8.7,pl:4.91,line:"7/8级追三星",diff:"适中",gate:"仅世纪和解海克斯一条入场路径"},
+{tier:"C",name:"赌提莫",pr:0.05,top4:39.6,wn:3.8,pl:5.04,line:"95运营",diff:"适中",gate:"提莫起手 / 法系件。均名 5.04，负收益"},
+{tier:"D",name:"花仙子小炮",pr:0.13,top4:41.9,wn:9.9,pl:4.90,line:"95运营",diff:"适中",gate:"体系牌重复度高且能过渡"},
+{tier:"D",name:"森林天使",pr:0.10,top4:45.2,wn:8.9,pl:4.79,line:"95运营",diff:"适中",gate:"体系牌重复度高"},
+{tier:"D",name:"7野怪绯红树怪",pr:0.04,top4:54.4,wn:8.4,pl:4.30,line:"6/7级追三星",diff:"简单",gate:"峡谷野怪体系牌重复度高"}
+];
+
+const tb=document.getElementById('tb'), cnt=document.getElementById('count');
+const chips=[...document.querySelectorAll('.chip')];
+const q=document.getElementById('q');
+let sortKey='pl', sortAsc=true;
+
+function activeTiers(){return chips.filter(c=>c.classList.contains('on')).map(c=>c.dataset.tier);}
+
+function render(){
+  const tiers=activeTiers(), kw=q.value.trim().toLowerCase();
+  let rows=DATA.filter(d=>tiers.includes(d.tier))
+    .filter(d=>!kw || (d.name+d.line+d.gate+d.diff).toLowerCase().includes(kw));
+  rows.sort((a,b)=>{
+    const x=a[sortKey], y=b[sortKey];
+    if(typeof x==='number') return sortAsc? x-y : y-x;
+    const order=['S','A','B','C','D'];
+    if(sortKey==='tier') return sortAsc? order.indexOf(x)-order.indexOf(y) : order.indexOf(y)-order.indexOf(x);
+    return sortAsc? String(x).localeCompare(String(y),'zh') : String(y).localeCompare(String(x),'zh');
+  });
+  tb.innerHTML=rows.map(d=>`<tr>
+    <td><span class="tier T-${d.tier}">${d.tier}</span></td>
+    <td class="name">${d.name}</td>
+    <td class="n">${d.pr.toFixed(2)}</td>
+    <td class="n">${d.top4.toFixed(1)}</td>
+    <td class="n">${d.wn.toFixed(1)}</td>
+    <td class="n hl">${d.pl.toFixed(2)}</td>
+    <td class="line-tag">${d.line}</td>
+    <td class="line-tag">${d.diff}</td>
+    <td class="gate">${d.gate}</td>
+  </tr>`).join('');
+  cnt.textContent=`${rows.length} / ${DATA.length} 套`;
+}
+
+chips.forEach(c=>c.addEventListener('click',()=>{c.classList.toggle('on');render();}));
+q.addEventListener('input',render);
+document.querySelectorAll('th[data-k]').forEach(th=>th.addEventListener('click',()=>{
+  const k=th.dataset.k;
+  if(sortKey===k) sortAsc=!sortAsc; else {sortKey=k; sortAsc=(k==='pl'||k==='tier');}
+  render();
+}));
+render();
+</script>
+</body>
+</html>
