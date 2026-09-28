@@ -475,10 +475,18 @@ function render(){
   cnt.textContent=`${rows.length} / ${DATA.length} 套`;
 }
 
+// Whole row is the click target; the name <a> is the semantic/keyboard-friendly link.
+// Ignore clicks bubbling from the anchor so a row click never opens two tabs.
+tb.addEventListener('click',e=>{
+  if(e.target.closest('a')) return;
+  const row=e.target.closest('tr.row');
+  if(row) window.open(row.dataset.h,'_blank','noopener');
+});
 tb.addEventListener('keydown',e=>{
-  if((e.key==='Enter'||e.key===' ') && e.target.classList.contains('row')){
+  const row=e.target.closest('tr.row');
+  if(row && (e.key==='Enter'||e.key===' ')){
     e.preventDefault();
-    window.open(e.target.dataset.h,'_blank','noopener');
+    window.open(row.dataset.h,'_blank','noopener');
   }
 });
 
