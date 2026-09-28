@@ -78,7 +78,6 @@ th:hover{color:var(--fg)}
 th.n,td.n{text-align:right;font-variant-numeric:tabular-nums}
 td{padding:12px 13px;border-bottom:1px solid rgba(42,50,71,.6);vertical-align:top}
 tbody tr:last-child td{border-bottom:none}
-tbody tr:hover{background:rgba(91,157,255,.05)}
 .name{font-weight:600;white-space:nowrap}
 .gate{color:var(--dim);font-size:13px;line-height:1.6;min-width:220px}
 .tier{
@@ -92,6 +91,16 @@ tbody tr:hover{background:rgba(91,157,255,.05)}
 .line-tag{font-size:12.5px;color:var(--dim);white-space:nowrap}
 .hl{color:var(--teal);font-weight:600}
 .count{color:var(--dim);font-size:13px;margin-left:auto}
+
+tr.row{cursor:pointer}
+tr.row:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
+a.ext{color:var(--fg);text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+a.ext .arrow{color:var(--dim);font-size:11px;transition:.15s}
+tr.row:hover{background:rgba(78,201,176,.09)}
+tr.row:hover a.ext{color:var(--teal)}
+tr.row:hover .arrow{color:var(--teal);transform:translate(2px,-2px)}
+.hint{font-size:13px;color:var(--grey);margin:10px 2px 0}
+.hint b{color:var(--teal);font-weight:600}
 
 /* signals */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:18px}
@@ -225,6 +234,7 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:v
       <tbody id="tb"></tbody>
     </table>
   </div>
+  <p class="hint">点击阵容名或整行 → 在<a href="https://www.datatft.com/comp/allinone" target="_blank" rel="noopener noreferrer">云顶大数据</a>新标签页打开该阵容的完整详情页（出装、站位、强化、运营全流程）。本页只保留数值与我自己归纳的门票条件。</p>
 </section>
 
 <section id="signals">
@@ -394,37 +404,37 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:v
 
 <script>
 const DATA=[
-{tier:"S",name:"6主宰婕拉",pr:0.33,top4:63.4,wn:16.7,pl:3.80,line:"速升8级",diff:"简单",gate:"6 主宰 / 婕拉 2 星 3 装 / 主件大天使"},
-{tier:"S",name:"黑荆棘运营沙皇",pr:0.05,top4:57.7,wn:17.9,pl:4.06,line:"速升8级",diff:"简单",gate:"黑荆棘纹章 / 阿兹尔 2 星 3 装 / 4+ 黑荆棘"},
-{tier:"S",name:"地狱火艾希",pr:0.23,top4:55.1,wn:21.3,pl:4.11,line:"速升8级",diff:"简单",gate:"地狱火纹章 / 艾希 / 物理件起手"},
-{tier:"S",name:"赌沙皇",pr:0.14,top4:53.5,wn:11.6,pl:4.33,line:"6/7级追三星",diff:"适中",gate:"阿兹尔 2 星 3 装 / 卡兹克 / 3 灵魂莲华"},
-{tier:"S",name:"黑暗仪式伊莉丝",pr:0.14,top4:41.3,wn:14.5,pl:4.93,line:"6/7级追三星",diff:"适中",gate:"黑暗仪式海克斯 / 伊莉丝+蛇女+莫甘娜"},
-{tier:"A",name:"森林小法",pr:0.30,top4:67.3,wn:20.8,pl:3.58,line:"4/5级追三星",diff:"适中",gate:"维迦 3 星 / 奥恩 3 星 / 乐芙兰 3 星"},
-{tier:"A",name:"拉露恩95",pr:0.57,top4:66.0,wn:20.4,pl:3.64,line:"95运营",diff:"适中",gate:"拉露恩 2 件以上攻击装 / 法系过渡"},
-{tier:"A",name:"4主宰艾希95",pr:0.22,top4:61.2,wn:19.1,pl:3.87,line:"95运营",diff:"适中",gate:"艾希 2 件以上攻击装 / 莲华 ≤7 / 经济强化"},
-{tier:"A",name:"厄斐豹女",pr:0.60,top4:63.1,wn:8.9,pl:3.96,line:"速升8级",diff:"简单",gate:"厄斐琉斯 3 装 / 奈德丽 3 装 / 物理起手"},
-{tier:"A",name:"德莱文95",pr:0.78,top4:54.7,wn:23.5,pl:4.11,line:"95运营",diff:"适中",gate:"德莱文 2 件以上攻击装 / 8 人口 / 经济强化"},
-{tier:"A",name:"高森林EZ",pr:0.50,top4:55.7,wn:16.1,pl:4.16,line:"95运营",diff:"适中",gate:"EZ 2 件以上攻击装 / 永恒之森 3+"},
-{tier:"A",name:"森林螳螂",pr:0.23,top4:55.7,wn:14.8,pl:4.20,line:"7/8级追三星",diff:"适中",gate:"卡兹克 2 星 3 装 / EZ / 黛安娜 / 卡尔"},
-{tier:"A",name:"神谕狐狸",pr:0.48,top4:56.5,wn:11.7,pl:4.20,line:"速升8级",diff:"适中",gate:"阿狸 3 装 / 莫甘娜 / 苍蓝哨戒 / 神谕 3+"},
-{tier:"A",name:"黑荆棘裁决",pr:0.78,top4:55.8,wn:11.7,pl:4.23,line:"速升8级",diff:"适中",gate:"索拉卡 2 件以上攻击装 / 法系过渡"},
-{tier:"B",name:"高迅射厄斐",pr:0.06,top4:61.3,wn:10.5,pl:4.03,line:"速升8级",diff:"简单",gate:"迅捷射手纹章（缺则不成立）"},
-{tier:"B",name:"6护卫蛇女",pr:0.13,top4:56.5,wn:10.7,pl:4.18,line:"7/8级追三星",diff:"适中",gate:"护卫纹章最佳 / 或魔女法系件起手"},
-{tier:"B",name:"永森莲华EZ",pr:0.06,top4:57.3,wn:9.7,pl:4.19,line:"速升8级",diff:"适中",gate:"永恒之森过渡 / 出场率极低，空位可选"},
-{tier:"B",name:"重装厄斐琉斯",pr:1.02,top4:56.1,wn:8.7,pl:4.27,line:"速升8级",diff:"适中",gate:"物理件起手（全表出场率第一）"},
-{tier:"B",name:"剑圣",pr:0.11,top4:54.1,wn:9.8,pl:4.32,line:"速升8级",diff:"简单",gate:"易适配神器到手 / 或经济强化"},
-{tier:"B",name:"日蚀芸阿娜",pr:0.05,top4:51.0,wn:12.4,pl:4.47,line:"6级追三星",diff:"简单",gate:"芸阿娜 + 1 张灵魂莲华 / 经济强化为前提"},
-{tier:"B",name:"宝宝学院阿卡丽",pr:0.06,top4:52.5,wn:8.5,pl:4.41,line:"4/5级追三星",diff:"简单",gate:"宝宝学院海克斯 / 体系牌重复度高"},
-{tier:"B",name:"主宰女警",pr:0.09,top4:52.4,wn:7.9,pl:4.44,line:"6/7级追三星",diff:"简单",gate:"3 魔女 / 物理件起手"},
-{tier:"B",name:"赌芸阿娜",pr:0.01,top4:51.9,wn:9.4,pl:4.47,line:"6/7级追三星",diff:"简单",gate:"芸阿娜重复度高 / 或经济强化"},
-{tier:"C",name:"猎手豹女",pr:0.03,top4:66.4,wn:10.7,pl:3.78,line:"速升8级",diff:"简单",gate:"物理件起手。数值不差但样本极小，黑马位"},
-{tier:"C",name:"高野怪驻灵",pr:0.12,top4:51.1,wn:9.5,pl:4.46,line:"95运营",diff:"适中",gate:"驻灵数量多 / 法系件起手"},
-{tier:"C",name:"黑荆棘赌狼人",pr:0.10,top4:50.8,wn:5.4,pl:4.54,line:"6/7级追三星",diff:"适中",gate:"沃里克重复度高 / 或适配神器"},
-{tier:"C",name:"世纪和解",pr:0.06,top4:42.3,wn:8.7,pl:4.91,line:"7/8级追三星",diff:"适中",gate:"仅世纪和解海克斯一条入场路径"},
-{tier:"C",name:"赌提莫",pr:0.05,top4:39.6,wn:3.8,pl:5.04,line:"95运营",diff:"适中",gate:"提莫起手 / 法系件。均名 5.04，负收益"},
-{tier:"D",name:"花仙子小炮",pr:0.13,top4:41.9,wn:9.9,pl:4.90,line:"95运营",diff:"适中",gate:"体系牌重复度高且能过渡"},
-{tier:"D",name:"森林天使",pr:0.10,top4:45.2,wn:8.9,pl:4.79,line:"95运营",diff:"适中",gate:"体系牌重复度高"},
-{tier:"D",name:"7野怪绯红树怪",pr:0.04,top4:54.4,wn:8.4,pl:4.30,line:"6/7级追三星",diff:"简单",gate:"峡谷野怪体系牌重复度高"}
+{id:16296,tier:"S",name:"6主宰婕拉",pr:0.33,top4:63.4,wn:16.7,pl:3.80,line:"速升8级",diff:"简单",gate:"6 主宰 / 婕拉 2 星 3 装 / 主件大天使"},
+{id:16298,tier:"S",name:"黑荆棘运营沙皇",pr:0.05,top4:57.7,wn:17.9,pl:4.06,line:"速升8级",diff:"简单",gate:"黑荆棘纹章 / 阿兹尔 2 星 3 装 / 4+ 黑荆棘"},
+{id:16287,tier:"S",name:"地狱火艾希",pr:0.23,top4:55.1,wn:21.3,pl:4.11,line:"速升8级",diff:"简单",gate:"地狱火纹章 / 艾希 / 物理件起手"},
+{id:16293,tier:"S",name:"赌沙皇",pr:0.14,top4:53.5,wn:11.6,pl:4.33,line:"6/7级追三星",diff:"适中",gate:"阿兹尔 2 星 3 装 / 卡兹克 / 3 灵魂莲华"},
+{id:16294,tier:"S",name:"黑暗仪式伊莉丝",pr:0.14,top4:41.3,wn:14.5,pl:4.93,line:"6/7级追三星",diff:"适中",gate:"黑暗仪式海克斯 / 伊莉丝+蛇女+莫甘娜"},
+{id:16286,tier:"A",name:"森林小法",pr:0.30,top4:67.3,wn:20.8,pl:3.58,line:"4/5级追三星",diff:"适中",gate:"维迦 3 星 / 奥恩 3 星 / 乐芙兰 3 星"},
+{id:16242,tier:"A",name:"拉露恩95",pr:0.57,top4:66.0,wn:20.4,pl:3.64,line:"95运营",diff:"适中",gate:"拉露恩 2 件以上攻击装 / 法系过渡"},
+{id:16244,tier:"A",name:"4主宰艾希95",pr:0.22,top4:61.2,wn:19.1,pl:3.87,line:"95运营",diff:"适中",gate:"艾希 2 件以上攻击装 / 莲华 ≤7 / 经济强化"},
+{id:16285,tier:"A",name:"厄斐豹女",pr:0.60,top4:63.1,wn:8.9,pl:3.96,line:"速升8级",diff:"简单",gate:"厄斐琉斯 3 装 / 奈德丽 3 装 / 物理起手"},
+{id:16241,tier:"A",name:"德莱文95",pr:0.78,top4:54.7,wn:23.5,pl:4.11,line:"95运营",diff:"适中",gate:"德莱文 2 件以上攻击装 / 8 人口 / 经济强化"},
+{id:16233,tier:"A",name:"高森林EZ",pr:0.50,top4:55.7,wn:16.1,pl:4.16,line:"95运营",diff:"适中",gate:"EZ 2 件以上攻击装 / 永恒之森 3+"},
+{id:16297,tier:"A",name:"森林螳螂",pr:0.23,top4:55.7,wn:14.8,pl:4.20,line:"7/8级追三星",diff:"适中",gate:"卡兹克 2 星 3 装 / EZ / 黛安娜 / 卡尔"},
+{id:16266,tier:"A",name:"神谕狐狸",pr:0.48,top4:56.5,wn:11.7,pl:4.20,line:"速升8级",diff:"适中",gate:"阿狸 3 装 / 莫甘娜 / 苍蓝哨戒 / 神谕 3+"},
+{id:16234,tier:"A",name:"黑荆棘裁决",pr:0.78,top4:55.8,wn:11.7,pl:4.23,line:"速升8级",diff:"适中",gate:"索拉卡 2 件以上攻击装 / 法系过渡"},
+{id:16271,tier:"B",name:"高迅射厄斐",pr:0.06,top4:61.3,wn:10.5,pl:4.03,line:"速升8级",diff:"简单",gate:"迅捷射手纹章（缺则不成立）"},
+{id:16264,tier:"B",name:"6护卫蛇女",pr:0.13,top4:56.5,wn:10.7,pl:4.18,line:"7/8级追三星",diff:"适中",gate:"护卫纹章最佳 / 或魔女法系件起手"},
+{id:16281,tier:"B",name:"永森莲华ez",pr:0.06,top4:57.3,wn:9.7,pl:4.19,line:"速升8级",diff:"适中",gate:"永恒之森过渡 / 出场率极低，空位可选"},
+{id:16236,tier:"B",name:"重装厄斐琉斯",pr:1.02,top4:56.1,wn:8.7,pl:4.27,line:"速升8级",diff:"适中",gate:"物理件起手（全表出场率第一）"},
+{id:16253,tier:"B",name:"剑圣",pr:0.11,top4:54.1,wn:9.8,pl:4.32,line:"速升8级",diff:"简单",gate:"易适配神器到手 / 或经济强化"},
+{id:16284,tier:"B",name:"日蚀芸阿娜",pr:0.05,top4:51.0,wn:12.4,pl:4.47,line:"6级追三星",diff:"简单",gate:"芸阿娜 + 1 张灵魂莲华 / 经济强化为前提"},
+{id:16269,tier:"B",name:"宝宝学院阿卡丽",pr:0.06,top4:52.5,wn:8.5,pl:4.41,line:"4/5级追三星",diff:"简单",gate:"宝宝学院海克斯 / 体系牌重复度高"},
+{id:16280,tier:"B",name:"主宰女警",pr:0.09,top4:52.4,wn:7.9,pl:4.44,line:"6/7级追三星",diff:"简单",gate:"3 魔女 / 物理件起手"},
+{id:16257,tier:"B",name:"赌芸阿娜",pr:0.01,top4:51.9,wn:9.4,pl:4.47,line:"6/7级追三星",diff:"简单",gate:"芸阿娜重复度高 / 或经济强化"},
+{id:16270,tier:"C",name:"猎手豹女",pr:0.03,top4:66.4,wn:10.7,pl:3.78,line:"速升8级",diff:"简单",gate:"物理件起手。数值不差但样本极小，黑马位"},
+{id:16219,tier:"C",name:"高野怪驻灵",pr:0.12,top4:51.1,wn:9.5,pl:4.46,line:"95运营",diff:"适中",gate:"驻灵数量多 / 法系件起手"},
+{id:16247,tier:"C",name:"黑荆棘赌狼人",pr:0.10,top4:50.8,wn:5.4,pl:4.54,line:"6/7级追三星",diff:"适中",gate:"沃里克重复度高 / 或适配神器"},
+{id:16260,tier:"C",name:"世纪和解",pr:0.06,top4:42.3,wn:8.7,pl:4.91,line:"7/8级追三星",diff:"适中",gate:"仅世纪和解海克斯一条入场路径"},
+{id:16225,tier:"C",name:"赌提莫",pr:0.05,top4:39.6,wn:3.8,pl:5.04,line:"95运营",diff:"适中",gate:"提莫起手 / 法系件。均名 5.04，负收益"},
+{id:16230,tier:"D",name:"花仙子小炮",pr:0.13,top4:41.9,wn:9.9,pl:4.90,line:"95运营",diff:"适中",gate:"体系牌重复度高且能过渡"},
+{id:16222,tier:"D",name:"森林天使",pr:0.10,top4:45.2,wn:8.9,pl:4.79,line:"95运营",diff:"适中",gate:"体系牌重复度高"},
+{id:16265,tier:"D",name:"7野怪绯红树怪",pr:0.04,top4:54.4,wn:8.4,pl:4.30,line:"6/7级追三星",diff:"简单",gate:"峡谷野怪体系牌重复度高"}
 ];
 
 const tb=document.getElementById('tb'), cnt=document.getElementById('count');
@@ -433,6 +443,10 @@ const q=document.getElementById('q');
 let sortKey='pl', sortAsc=true;
 
 function activeTiers(){return chips.filter(c=>c.classList.contains('on')).map(c=>c.dataset.tier);}
+
+const BASE='https://www.datatft.com/comp/allinone#';
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 
 function render(){
   const tiers=activeTiers(), kw=q.value.trim().toLowerCase();
@@ -445,19 +459,28 @@ function render(){
     if(sortKey==='tier') return sortAsc? order.indexOf(x)-order.indexOf(y) : order.indexOf(y)-order.indexOf(x);
     return sortAsc? String(x).localeCompare(String(y),'zh') : String(y).localeCompare(String(x),'zh');
   });
-  tb.innerHTML=rows.map(d=>`<tr>
+  tb.innerHTML=rows.map(d=>{
+    const href=BASE+d.id, label='在新标签页打开 '+d.name+' 的 datatft 详情页';
+    return `<tr class="row" data-h="${esc(href)}" tabindex="0" role="link" aria-label="${esc(label)}" title="${esc(label)}">
     <td><span class="tier T-${d.tier}">${d.tier}</span></td>
-    <td class="name">${d.name}</td>
+    <td class="name"><a class="ext" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(d.name)}<span class="arrow" aria-hidden="true">↗</span></a></td>
     <td class="n">${d.pr.toFixed(2)}</td>
     <td class="n">${d.top4.toFixed(1)}</td>
     <td class="n">${d.wn.toFixed(1)}</td>
     <td class="n hl">${d.pl.toFixed(2)}</td>
-    <td class="line-tag">${d.line}</td>
-    <td class="line-tag">${d.diff}</td>
-    <td class="gate">${d.gate}</td>
-  </tr>`).join('');
+    <td class="line-tag">${esc(d.line)}</td>
+    <td class="line-tag">${esc(d.diff)}</td>
+    <td class="gate">${esc(d.gate)}</td>
+  </tr>`;}).join('');
   cnt.textContent=`${rows.length} / ${DATA.length} 套`;
 }
+
+tb.addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ') && e.target.classList.contains('row')){
+    e.preventDefault();
+    window.open(e.target.dataset.h,'_blank','noopener');
+  }
+});
 
 chips.forEach(c=>c.addEventListener('click',()=>{c.classList.toggle('on');render();}));
 q.addEventListener('input',render);
