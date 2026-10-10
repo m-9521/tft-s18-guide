@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>云顶之弈 S18 / 18.3b · 强势阵容与开局选阵思路</title>
+<title>云顶之弈 S18 / 18.4b · 强势阵容与开局定阵思路</title>
 <style>
 :root{
   --bg:#0f1320; --panel:#171c2b; --panel2:#1e2536; --line:#2a3247;
@@ -160,6 +160,49 @@ ol.tk li::before{content:counter(t);position:absolute;left:0;top:1px;width:30px;
 ol.tk li b{color:var(--fg)}
 
 footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:var(--grey);font-size:13px;line-height:1.9}
+
+/* 开局定阵筛选 */
+.sig-groups{margin-top:22px}
+.sig-group{margin-bottom:22px}
+.sig-label{font-size:14px;color:var(--fg);font-weight:600;margin-bottom:10px}
+.sig-label span{color:var(--grey);font-weight:400;font-size:13px}
+.chiprow{display:flex;flex-wrap:wrap;gap:9px}
+.iconchip{
+  display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);
+  border-radius:10px;padding:6px 12px 6px 6px;cursor:pointer;font-family:inherit;color:var(--dim);
+  font-size:13.5px;transition:.15s;
+}
+.iconchip img{width:30px;height:30px;border-radius:7px;display:block;background:var(--panel2)}
+.iconchip:hover{border-color:var(--teal);color:var(--fg);transform:translateY(-1px)}
+.iconchip.on{border-color:var(--gold);color:var(--gold);background:rgba(242,198,109,.1)}
+.iconchip.on img{box-shadow:0 0 0 2px rgba(242,198,109,.5)}
+.iconchip.noimg{padding:6px 14px}
+.iconchip.noimg::before{content:"◈";color:var(--grey);font-size:14px}
+.textchip{
+  background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+  cursor:pointer;font-family:inherit;color:var(--dim);font-size:13.5px;transition:.15s;
+}
+.textchip:hover{border-color:var(--teal);color:var(--fg)}
+.textchip.on{border-color:var(--gold);color:var(--gold);background:rgba(242,198,109,.1)}
+.pick-result{margin-top:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.pick-empty{color:var(--grey);font-size:14px;margin:0}
+.pick-head{font-size:14px;color:var(--dim);margin:0 0 12px}
+.pick-head b{color:var(--fg)}
+.pick-row{
+  display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid var(--line);
+  border-radius:10px;margin-bottom:9px;background:var(--panel2);text-decoration:none;color:inherit;
+}
+.pick-row:hover{border-color:var(--teal)}
+.pick-row.best{border-color:rgba(242,198,109,.55);background:rgba(242,198,109,.07)}
+.pick-main{flex:1;min-width:0}
+.pick-name{font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pick-flag{font-size:11.5px;padding:2px 8px;border-radius:999px;background:rgba(242,198,109,.16);color:var(--gold);border:1px solid rgba(242,198,109,.45)}
+.pick-stats{font-size:13px;color:var(--dim);margin-top:5px;font-variant-numeric:tabular-nums}
+.pick-stats b{color:var(--teal)}
+.pick-why{font-size:13px;color:var(--grey);margin-top:6px;line-height:1.6}
+.covnote{margin-top:16px;font-size:13px;color:var(--grey);line-height:1.8;border-left:3px solid var(--line);padding-left:14px}
+.covnote b{color:var(--fg)}
+.unlabeled{color:var(--grey);font-style:normal;opacity:.85}
 @media(max-width:640px){
   body{font-size:15px}
   header.hero{padding:36px 20px 28px}
@@ -173,34 +216,37 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:v
   <div class="hero-inner">
     <div class="badges">
       <span class="badge gold">赛季 S18</span>
-      <span class="badge gold">版本 18.3 / 18.3b</span>
-      <span class="badge">榜单更新 2026-09-24</span>
+      <span class="badge gold">版本 18.4b</span>
+      <span class="badge">榜单快照 2026-10-09</span>
       <span class="badge">钻石及以上 · 最近五天 · 选手评级</span>
+      <span class="badge">35 套阵容</span>
     </div>
-    <h1>云顶之弈 <span class="accent">S18 · 18.3b</span><br>强势阵容与开局选阵思路</h1>
-    <p class="lede">个人学习笔记。数值取自云顶大数据 datatft.com 的公开阵容评级接口（共 31 套，2026-09-24 快照）；结论、优先级排序与决策流程是我自己归纳的，不代表原站观点。页面只保留可核实的条件与数字，不复述原站的攻略行文。</p>
+    <h1>云顶之弈 <span class="accent">S18 · 18.4b</span><br>强势阵容与开局定阵思路</h1>
+    <p class="lede">个人学习笔记。数值取自云顶大数据 datatft.com 的公开阵容评级接口（35 套，2026-10-09 快照）；结论、优先级排序与决策流程是我自己归纳的，不代表原站观点。页面只保留可核实的条件与数字，不复述原站的攻略行文。版本变动一节由 18.3b 与 18.4b 两份快照自行 diff 得出。</p>
   </div>
 </header>
 
 <div class="wrap">
 
 <nav class="toc">
-  <a href="#meta">口径</a>
-  <a href="#meta">榜单</a>
-  <a href="#signals">五类定阵信号</a>
+  <a href="#meta">版本前提</a>
+  <a href="#list">榜单</a>
+  <a href="#pick">开局定阵筛选</a>
+  <a href="#signals">五类信号</a>
   <a href="#flow">决策流程</a>
   <a href="#lines">节奏线模板</a>
-  <a href="#news">近 14 天变动</a>
+  <a href="#news">版本变动</a>
   <a href="#tk">思路总结</a>
 </nav>
 
 <section id="meta">
-  <h2>版本前提：这是一个"没有版本答案"的版本</h2>
+  <h2>版本前提：仍然没有公共答案，而且洗牌很剧烈</h2>
   <p class="sub">先看这一条，否则下面的榜单没有意义。</p>
   <div class="callout">
-    18.3b 的阵容分布<b>极度分散</b>：全表出场率最高的一套（重装厄斐琉斯）也只有 <b>1.02%</b>，S 级头名 6主宰婕拉仅 <b>0.33%</b>。
-    没有任何一套阵是"人人抢"的公共选择。这直接决定了开局思路是 ——
-    <b>读自己的发牌信号，去认领别人没占的空位</b>，而不是套用固定阵容。
+    18.4b 共 35 套阵容，出场率最高的一套（重装厄斐琉斯）也只有 <b>0.98%</b>，S 级头名森林螳螂 <b>0.28%</b>。
+    没有任何一套是"人人抢"的公共选择 —— 开局思路依然是<b>读自己的信号去认领空位</b>。
+    但要注意 <b>18 套阵容的评级发生变动（9 升 9 降）</b>，上一版的强弱结论大部分已经失效：
+    地狱火艾希从 S 掉到 C，赌沙皇从 S 掉到 B，而森林螳螂、高森林EZ 升到 S。用旧版本印象开局会直接吃亏。
   </div>
 </section>
 
@@ -237,6 +283,37 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:v
   <p class="hint">点击阵容名或整行 → 在<a href="https://www.datatft.com/comp/allinone" target="_blank" rel="noopener noreferrer">云顶大数据</a>新标签页打开该阵容的完整详情页（出装、站位、强化、运营全流程）。本页只保留数值与我自己归纳的门票条件。</p>
 </section>
 
+<section id="pick">
+  <h2>开局拿到什么 → 定什么阵容</h2>
+  <p class="sub">点图标或标签，直接看这个开局信号当前该往哪套阵走。</p>
+
+  <div class="callout">
+    <b>推理链</b>：datatft 给每套阵容都标了一组「门票条件」（<code>conditions</code> 字段）。
+    当某个纹章或羁绊层数出现在某套阵的门票里，就等于站点判定「拿到它就该考虑这套」。
+    本区块把这条映射反查出来，再用<b>该阵容当前的评级与数值</b>排序 —— 同一信号对应多套阵时，按平均排名从优到劣列出，最优的一套标为推荐。
+  </div>
+
+  <div class="sig-groups">
+    <div class="sig-group">
+      <div class="sig-label">转职纹章 / 关键装 · 刚需门票 <span>（门票里直接点名，属于硬信号）</span></div>
+      <div class="chiprow" id="row-emblem"></div>
+    </div>
+    <div class="sig-group">
+      <div class="sig-label">羁绊层数门槛 <span>（门票写的是"某羁绊到 N 层"，拿到对应纹章即可提前达成，属于加速信号）</span></div>
+      <div class="chiprow" id="row-trait"></div>
+    </div>
+  </div>
+
+  <div id="pick-result" class="pick-result"><p class="pick-empty">点上面任意一个图标或标签查看结论。</p></div>
+
+  <p class="covnote">
+    <b>覆盖范围（务必看）</b>：这里只列出本榜 35 套阵容门票里<b>实际出现</b>的纹章与羁绊门槛。
+    如果你手上的纹章不在其中，说明 18.4b 榜单里<b>没有任何一套阵把它写成门票</b> —— 数据给不出该纹章的定阵建议，
+    我不做推测。其中「夜之锋刃」是神器不是纹章，因它是猎手豹女门票里的点名装备，一并列出。
+    另外源站只提供<b>羁绊通用等级图标</b>（0/1/3 数字标），没有逐个羁绊的图案，所以羁绊一组只能用文字标签。
+  </p>
+</section>
+
 <section id="signals">
   <h2>开局选阵的五类信号</h2>
   <p class="sub">按优先级从高到低。低优先级信号用来"在多个可行解里挑一个"，不能用来"造一个不存在的解"。</p>
@@ -246,11 +323,11 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:v
       <h4><span class="num">1</span>转职纹章 <span class="line-tag">— 见到即可定阵</span></h4>
       <p>唯一"给了就锁定"的硬门票。S18 的核心资源不是装备完美度，而是铲子/纹章，它无法用其他方式补齐。</p>
       <div class="map">
-        <span>黑荆棘纹章</span> → 黑荆棘运营沙皇<br>
-        <span>地狱火纹章</span> → 地狱火艾希 / 4主宰艾希95<br>
-        <span>迅捷射手纹章</span> → 高迅射厄斐（没转直接不玩）<br>
-        <span>护卫纹章</span> → 6护卫蛇女<br>
-        <span>主宰纹章</span> → 6主宰婕拉（加速器，非门票）
+        <span>黑荆棘纹章</span> → 黑荆棘运营沙皇（A · 均名 3.94）<br>
+        <span>迅捷射手纹章</span> → 高迅射厄斐（A · 均名 3.88）<br>
+        <span>地狱火纹章</span> → 地狱火艾希（C · 均名 4.28，已从 S 掉下来）<br>
+        <span>月蚀骑士纹章</span> → 日月厄斐（A · 均名 4.35）<br>
+        <span>主宰纹章</span> → 6主宰婕拉（非刚需，是冲 6 主宰的加速器）
       </div>
     </div>
 
@@ -302,10 +379,10 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:v
   <h2>定阵决策流程</h2>
   <p class="sub">把五类信号合成一条线，2-1 前走完前四步就该有结论。</p>
   <ol class="flow">
-    <li>有 <b>转职纹章</b> 或 <b>专属机制海克斯</b>？ → 定阵、锁死，其余信号全部忽略。</li>
-    <li><b>大经济海克斯</b> + 血线健康（≤2 连败）？ → 定 <code>95 运营线</code>，装备只拿通用件。</li>
-    <li>某一系 1~2 费<b>重复度 ≥ 5</b>？ → 走 <code>赌狗线</code>，卡 4/5 或 6/7 级。</li>
-    <li><b>装备组件方向明确</b>？ → 走对应的物理 / 法系 <code>速升 8</code> 阵。</li>
+    <li>拿到 <b>转职纹章</b> 或关键装？ → 直接用<a href="#pick">上面的图标筛选</a>看命中哪套阵，命中即锁死。</li>
+    <li><b>大经济海克斯</b> + 血线健康（≤2 连败）？ → 走 <code>上 9 再搜</code> 的运营线，装备只拿通用件。</li>
+    <li>某一系 1~2 费<b>重复度 ≥ 5</b>？ → 走 <code>4/5 级追三</code> 或 <code>6/7 级追三</code>。</li>
+    <li><b>羁绊门槛即将达成</b>（如上表里某个 N 层门槛）？ → 用<a href="#pick">羁绊层数</a>一组确认是哪套，走对应 <code>速升 8</code> 或 <code>7/8 级追三</code>。</li>
     <li>以上都不成立 → <b>空城 / 连败抢铲子</b>，把决策推迟到 3-2。</li>
   </ol>
   <div class="callout" style="border-left-color:var(--red)">
@@ -315,126 +392,169 @@ footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:v
 
 <section id="lines">
   <h2>四条节奏线的开局模板</h2>
-  <p class="sub">展开查看。节奏线一局只能选一条，四条线的经济模型互斥 —— 这是我按各阵的等级门槛与 D 牌位置归出来的分组。</p>
+  <p class="sub">展开查看。节奏线一局只能选一条，四条线的经济模型互斥。分组用源站标注，<b>12 套阵源站未标注节奏线</b>，我列为"未标注"而不代填 —— 见本节末尾。</p>
 
   <details class="tmpl" open>
-    <summary>速升 8 运营 <span class="pill">代表：6主宰婕拉</span><span class="pill">均名 3.80 · 前四 63.4%</span></summary>
+    <summary>速升 8 级 <span class="pill">12 套 · 最大的一组</span><span class="pill">最优：猎手豹女 均名 3.74</span></summary>
     <div class="body">
       特征是<strong>全程不 D，把钱花在人口上</strong>。2 阶段只升级、用体系前排和打工卡带主C 的装备稳血；3 阶段继续抬人口；
-      <em>8 级才开第一波 D</em>，目标是主C 二星，到手即收手。转职在这条线上是"加速器"而不是门票 —— 有则抬上限，没有也能成型。
-      风险点：8 级 D 空就同时失去血量和经济，所以 7 级前掉血超过阈值时要提前 D 补质量。
+      <em>8 级才开第一波 D</em>，目标是主C 二星，到手即收手。转职在这条线上多为"加速器"而非门票。
+      本组阵容（按均名）：猎手豹女、高迅射厄斐、黑荆棘运营沙皇、厄斐豹女、6主宰婕拉、重装神谕豹女、黑荆棘裁决、永森莲华ez、神谕狐狸、重装厄斐琉斯、地狱火艾希、日月厄斐。
+      风险点：8 级 D 空就同时失去血量和经济，7 级前掉血超阈值时要提前 D 补质量。
     </div>
   </details>
 
   <details class="tmpl">
-    <summary>4/5 级追三 <span class="pill">代表：森林小法</span><span class="pill">均名 3.58 · 前四 67.3%（全表最优）</span></summary>
+    <summary>6/7 级追三星 <span class="pill">6 套</span><span class="pill">最优：7野怪绯红树怪 均名 3.89</span></summary>
     <div class="body">
-      <em>开局就得决定，最晚 3-1。</em>门票是一费的重复度：维迦、奥恩、乐芙兰都能追三才成立。
-      打法是卡低利息在 4~5 级大 D 一波把核心追出三星，之后才恢复升级。
-      这条线<strong>不吃后期卡，吃质量差</strong> —— 一旦对面也在追同一批牌，直接崩，所以发牌前先扫一眼对手有没有抢同样的体系。
+      卡在中等级反复 D 出三星，靠<strong>单卡质量差</strong>吃分。本组：7野怪绯红树怪、赌沙皇、黑荆棘赌狼人、赌芸阿娜、主宰女警、黑暗仪式伊莉丝。
+      注意本组<em>两极分化极端</em>：7野怪绯红树怪 均名 3.89、前四 62.7%，而黑暗仪式伊莉丝均名 4.83、前四仅 42.9% —— 后者是纯赌上限的阵，不要因为它挂在 S 级就当成稳分选择。
     </div>
   </details>
 
   <details class="tmpl">
-    <summary>连败抢铲 <span class="pill">代表：黑荆棘运营沙皇</span><span class="pill">均名 4.06 · 登顶 17.9%</span></summary>
+    <summary>7/8 级追三星 <span class="pill">3 套 · 本版质量最高的一组</span><span class="pill">含 2 套 S</span></summary>
     <div class="body">
-      主动牺牲 2 阶段血量换选秀优先权，<strong>目标是铲子而不是装备强度</strong>；选秀抢不到铲就退而拿大棒。
-      海克斯全程偏向经济类来补回连败损失的血线，7 级可视情况小 D 稳血。
-      成型点在 8 级：用二星四费当献祭位把纹章转移给真正的输出核，再上人口补二星五费。<em>血线管理是唯一难点</em>，滑太快会在拿不到纹章的情况下直接出局。
+      门票多是"某张 2 星 + 三件套"，在 7~8 级把核心追出来。本组：护卫沙皇拼多多（S）、森林螳螂（S）、6护卫蛇女（B）。
+      <em>护卫沙皇拼多多是本版新增阵容</em>，一进来就是 S 级；森林螳螂则是从 A 升上来的。
     </div>
   </details>
 
   <details class="tmpl">
-    <summary>机制收菜 <span class="pill">代表：黑暗仪式伊莉丝</span><span class="pill">前四仅 41.3% · 高上限</span></summary>
+    <summary>4/5 级追三星 <span class="pill">2 套</span><span class="pill">森林小法 均名 3.62 = 全表最优</span></summary>
     <div class="body">
-      强度全押在机制层数结算的那一次上，<strong>没收到够高层数就等于没有这套阵</strong>（该阵前四率 41.3%，全表垫底）。
-      前期靠魔女换怪叠层，装备只保核心前排两件、其余全输出，且只需一个前排。
-      3-2 升 6 慢 D 追三星，<em>第一次结算的层数是决定项</em>；结算后可以把版面切到重装以提高容错。
-      结论：只在专属海克斯到手、且没人抢同一体系时才做。
+      <em>开局就得决定，最晚 3-1。</em>门票是一费的重复度，打法是卡低利息在 4~5 级大 D 一波把核心追出三星，之后才恢复升级。
+      本组只有森林小法、宝宝学院阿卡丽两套 —— 森林小法数值全表最好（均名 3.62、前四 66.5%），但评级只是 B，
+      说明它<strong>样本少且条件苛刻</strong>；一旦有人抢同一批牌就直接崩。
     </div>
   </details>
 
   <details class="tmpl">
-    <summary>95 运营 <span class="pill">代表：德莱文95 / 拉露恩95 / 4主宰艾希95</span><span class="pill">登顶 19~23.5%</span></summary>
+    <summary>95 运营 <span class="pill">源站已不再标注此线</span><span class="pill">12 套未标注</span></summary>
     <div class="body">
-      四条线里唯一<em>靠经济强化而不是靠发牌</em>成立的一条：门票就是大经济海克斯，没有就别走。
-      全程不 D、不抢质量，上 9 之后才开搜，全二星即成型，优先给主C 和远古巨龙做装。
-      特点是<strong>前四率普遍偏低、登顶率最高</strong>（德莱文95 前四 54.7% 但登顶 23.5%）—— 成型就赢，不成型就第八。
-      站位与装备冲突要额外记：例如随机目标的普攻型机制会打断"持续锁定同一目标"类加成，两者不要叠在同一张卡上。
+      18.3b 时源站还给部分阵容打"95运营"标签，18.4b <strong>全部取消了这个标签</strong>，名带"95"的只剩德莱文95、拉露恩95、4主宰艾希95 三套，归入"未标注"。
+      所以本版我<em>不再按"95 线"分组</em>：没有源站标注就不替它归类。
+      从条件字段看，只有德莱文95 明确带 <code>人口 8+</code> 门槛；这条线的共同点仍是"靠经济强化撑到 9 级再搜"，
+      但这是我从条件读出的，不是源站标签。
     </div>
   </details>
+
+  <div class="callout" style="border-left-color:var(--grey)">
+    <b style="color:var(--fg)">未标注的 12 套</b>（源站 <code>tags</code> 为空，我不代填节奏线）：拉露恩95、4主宰艾希95、德莱文95、高森林EZ、高野怪驻灵、日蚀芸阿娜、剑圣、赌提莫、森林天使、黄铜AP豹女、世纪和解、花仙子小炮。
+    它们的门票条件照常列在榜单里，可以正常用。
+  </div>
 </section>
 
 <section id="news">
-  <h2>最近 14 天的新增与变动</h2>
-  <p class="sub">2026-09-14 → 09-28，按原站机制情报的更新时间筛出。热修频繁，榜单排名的半衰期大约一周。</p>
+  <h2>版本变动：18.3b → 18.4b</h2>
+  <p class="sub">由本页上一版（18.3b / 2026-09-24 快照，31 套）与当前版（18.4b / 2026-10-09 快照，35 套）两份数据集 diff 得出，非人工转述。</p>
+
   <ul class="tl">
-    <li><span class="d">2026-09-27</span><p><b>拉克丝不存在跨玩家羁绊互斥</b>，八家可拿同一羁绊的拉克丝 —— 不必因"别人在用"而放弃。<span class="gain">利好拉露恩95 / 魔女线。</span></p></li>
-    <li><span class="d">2026-09-24</span><p>阵容榜单更新（本页数值基准）。同日魔女 250 层结算给的拉克丝<b>必定是魔女拉克丝</b>。</p></li>
-    <li><span class="d">2026-09-23</span><p>宝宝学院与手游口径统一：<b>基础 3% 双强对一费卡翻倍计算，即一费卡默认吃 6% 双强</b>。一费赌狗的隐性 buff。</p></li>
-    <li><span class="d">2026-09-23</span><p><b>三处数值修正同时影响三套阵：</b><br>· 物理奈德丽护甲穿透回落到 40% → <span class="risk">厄斐豹女实际被削</span><br>· 荆棘鸟怪基础穿甲下调 → <span class="risk">影响高迅射厄斐</span><br>· 阿卡丽巫妖触发伤害修正，且「Missed Connections」不再给 2 个阿卡丽 → <span class="risk">宝宝学院阿卡丽门票变差</span></p></li>
-    <li><span class="d">2026-09-19</span><p><b>卡兹克的转职掉场规则：</b>携带其四个可进化羁绊之一的纹章、并选择进化该羁绊时，<em>纹章会自动掉出场</em>；反复给会反复掉。<span class="risk">森林螳螂给转职前要排好进化顺序。</span></p></li>
-    <li><span class="d">2026-09-17</span><p><b>拉露恩月相只由最强的那只推进</b>，多只共享月相进度 → 双拉露恩可行；同期确认「后防蓝图」按卡面最后一个羁绊发纹章，给黛安娜时实际产出毁约者纹章而非先锋，可用来定向拿转职。</p></li>
-    <li><span class="d">2026-09-14 前后</span><p>云铲差异：手游的变形术类仙灵只在每回合第一次出现时触发，<b>靠卡经济刷 4 变 5 在手游基本不成立</b>；端游仍可正常刷新。</p></li>
+    <li><span class="d">2026-10-09</span><p><b>榜单快照更新至 18.4b</b>，阵容数 31 → 35。本页所有数值以此为准。</p></li>
+    <li><span class="d">18.4b 新增 4 套</span><p>
+      <span class="gain">护卫沙皇拼多多</span>（<b>S</b> · 均名 4.06 · 前四 57.7%）—— 拉莫斯/阿兹尔/卡兹克三张 2 星门槛，一进来就是 S。<br>
+      <span class="gain">日月厄斐</span>（A · 均名 4.35）—— 刚需月蚀骑士纹章 + 日蚀骑士 3。<br>
+      <span class="gain">重装神谕豹女</span>（B · 均名 4.15）—— 门票是莫甘娜 + 苍蓝雕纹魔像，无纹章要求。<br>
+      <span class="gain">黄铜AP豹女</span>（A · 均名 4.66）—— 评级 A 但数值很弱、出场率接近 0，评级与数值矛盾，谨慎对待。</p></li>
+    <li><span class="d">18.4b 移除 0 套</span><p>没有任何阵容被下架，只是评级与数值变化。</p></li>
+    <li><span class="d">评级上升 9 套</span><p>
+      森林螳螂 A→<b>S</b>、高森林EZ A→<b>S</b>、高野怪驻灵 C→<b>A</b>、高迅射厄斐 B→<b>A</b>、永森莲华ez B→<b>A</b>、7野怪绯红树怪 D→<b>B</b>、猎手豹女 C→<b>B</b>、黑荆棘赌狼人 C→<b>B</b>、森林天使 D→<b>C</b>。
+      其中 7野怪绯红树怪 从 D 跳到 B 且均名 3.89（前四 62.7%），是本版最被低估的一跃。</p></li>
+    <li><span class="d">评级下降 9 套</span><p>
+      地狱火艾希 <b>S→C</b>（均名 4.11 → 4.28，登顶率 21.3% → 17.0%）、赌沙皇 <b>S→B</b>、黑荆棘运营沙皇 <b>S→A</b>、
+      森林小法 A→B、4主宰艾希95 A→B、日蚀芸阿娜 B→D、赌芸阿娜 B→C、主宰女警 B→C、世纪和解 C→D。<br>
+      <span class="risk">重点：上一版的两个 S 级主推（地狱火艾希、赌沙皇）已掉出 S，任何"上版本印象"都要作废。</span></p></li>
+    <li><span class="d">2026-09-28</span><p>修复一个未公开的 BUG：召唤物单位可以伤害敌方小小英雄。此前利用无限复制召唤物的玩法会把复制体计入单位数、从而对敌方小小英雄造成巨额伤害 —— 该玩法已失效。<span class="gain">影响 6主宰婕拉（艾翁复制体系）。</span></p></li>
+    <li><span class="d">2026-09-27</span><p><b>辟谣：拉克丝不存在跨玩家羁绊互斥</b>，八家可以拿同一羁绊的拉克丝。不必因"别人在用"而放弃。<span class="gain">影响拉露恩95 / 魔女线。</span></p></li>
+    <li><span class="d">说明</span><p>源站"信息差"栏目的最新条目已是 2 个月前，所以本节以版本 diff 为主体；机制层情报只有上面 2 条落在近 14 天内。更细的机制改动源站没有给出，我不补齐。</p></li>
   </ul>
 </section>
 
 <section id="tk">
   <h2>游戏思路总结</h2>
   <ol class="tk">
-    <li><b>版本是"信号驱动"而非"阵容驱动"。</b> 31 套阵出场率全在 1% 上下。开局唯一正确的问题不是"今天玩什么"，而是"这局给了我什么门票、别人没占什么位置"。</li>
-    <li><b>门票有严格优先级。</b> 转职 ≈ 专属机制海克斯 &gt; 经济海克斯 &gt; 装备组件方向 &gt; 低费重复度。越靠前越"见到即锁死"。</li>
-    <li><b>核心资源是铲子/纹章，不是装备完美度。</b> 多套 S/A 阵的强度挂在一个转职上，2 阶段选秀抢铲的优先级高于一切散件合成。</li>
-    <li><b>节奏线一局只选一次，3-2 前锁死。</b> 速升8 / 95运营 / 6-7追三 / 4-5追三 四条线经济模型互斥，中途换线等于同时放弃两条线的收益。</li>
-    <li><b>上限来自空位，不来自数据。</b> 德莱文95 前四率只有 54.7% 却是全表登顶第一（23.5%）—— 这类阵的胜负手是"有没有人跟我抢"。开局读对手，同阵容少于 2 家就把权重往上提。</li>
-    <li><b>结论半衰期约一周。</b> 选阵逻辑可以长期复用，具体阵容排名建议隔几天重拉一次数据。</li>
+    <li><b>版本仍是"信号驱动"而非"阵容驱动"。</b> 35 套阵出场率全在 1% 以下。开局唯一正确的问题不是"今天玩什么"，而是"这局给了我什么门票、别人没占什么位置"。</li>
+    <li><b>门票优先级不变：转职/关键装 &gt; 羁绊层数门槛 &gt; 经济海克斯 &gt; 装备方向 &gt; 低费重复度。</b> 前两类可以直接用上面的图标筛选定阵，后三类是在多个可行解里挑一个。</li>
+    <li><b>评级与数值会背离，要交叉看。</b> 黄铜AP豹女评级 A 但均名 4.66；黑暗仪式伊莉丝评级 S 但前四只有 42.9%。评级反映的是"上限被认可"，均名反映的是"平均能拿几分" —— 冲分看均名，博上限才看评级。</li>
+    <li><b>本版洗牌剧烈，先清缓存再用旧经验。</b> 9 升 9 降，两个上版 S 级（地狱火艾希、赌沙皇）已掉出 S。任何"上版本印象"先对照本页榜单再决定。</li>
+    <li><b>上限依然来自空位。</b> 德莱文95 前四率只有 55.0% 却是全表登顶第一（23.8%）；拉露恩95 前四 65.3% 且登顶 20.4%，是本版少见的"高前四 + 高登顶"双高。开局读对手：同阵容少于 2 家就把权重往上提。</li>
+    <li><b>源站缺标注的地方不要代填。</b> 12 套阵没有节奏线标签、完整纹章目录也拿不到，本页一律标"未标注/覆盖不足"而不是猜一个值 —— 这类结论一旦猜错，比没有更糟。</li>
   </ol>
 </section>
 
 <footer>
   <b>数据源与授权</b><br>
-  阵容统计数值来自云顶大数据 datatft.com 公开接口（<code>api.datatft.com/team/rank</code>、<code>team/strategy</code>），
-  榜单快照时间 2026-09-24 22:22，统计口径为钻石及以上分段最近五天、选手评级；机制变动条目按原站信息差的更新时间整理。<br>
-  本页仅保留可核实的条件与数字，节奏线分组、五类信号优先级、决策流程与全部结论均为个人归纳。
+  阵容统计数值来自云顶大数据 datatft.com 公开接口（<code>api.datatft.com/team/rank</code>、<code>team/list</code>、<code>team/strategy</code>），
+  榜单快照时间 2026-10-09 23:02（版本 18.4b，35 套），统计口径为钻石及以上分段最近五天、选手评级。
+  纹章/装备图标取自 <code>static.datatft.com/images/equips/</code>，仅作指向性引用，版权归原站。<br>
+  版本变动一节由本页 18.3b 快照（2026-09-24）与当前 18.4b 快照自行 diff 得出。
+  本页仅保留可核实的条件与数字，节奏线分组沿用源站标注、缺标注处如实留空；开局定阵筛选的推理链、优先级排序与全部结论均为个人归纳。
   阵容名称、羁绊与数值归属 Riot Games / 腾讯；原站攻略行文与社区情报内容的版权归 datatft.com 及其作者所有，本页未收录其原文表述。<br>
-  个人学习笔记，非商用，不含任何官方或站点背书。生成于 2026-09-28。
+  个人学习笔记，非商用，不含任何官方或站点背书。生成于 2026-10-10。
 </footer>
 
 </div>
 
 <script>
 const DATA=[
-{id:16296,tier:"S",name:"6主宰婕拉",pr:0.33,top4:63.4,wn:16.7,pl:3.80,line:"速升8级",diff:"简单",gate:"6 主宰 / 婕拉 2 星 3 装 / 主件大天使"},
-{id:16298,tier:"S",name:"黑荆棘运营沙皇",pr:0.05,top4:57.7,wn:17.9,pl:4.06,line:"速升8级",diff:"简单",gate:"黑荆棘纹章 / 阿兹尔 2 星 3 装 / 4+ 黑荆棘"},
-{id:16287,tier:"S",name:"地狱火艾希",pr:0.23,top4:55.1,wn:21.3,pl:4.11,line:"速升8级",diff:"简单",gate:"地狱火纹章 / 艾希 / 物理件起手"},
-{id:16293,tier:"S",name:"赌沙皇",pr:0.14,top4:53.5,wn:11.6,pl:4.33,line:"6/7级追三星",diff:"适中",gate:"阿兹尔 2 星 3 装 / 卡兹克 / 3 灵魂莲华"},
-{id:16294,tier:"S",name:"黑暗仪式伊莉丝",pr:0.14,top4:41.3,wn:14.5,pl:4.93,line:"6/7级追三星",diff:"适中",gate:"黑暗仪式海克斯 / 伊莉丝+蛇女+莫甘娜"},
-{id:16286,tier:"A",name:"森林小法",pr:0.30,top4:67.3,wn:20.8,pl:3.58,line:"4/5级追三星",diff:"适中",gate:"维迦 3 星 / 奥恩 3 星 / 乐芙兰 3 星"},
-{id:16242,tier:"A",name:"拉露恩95",pr:0.57,top4:66.0,wn:20.4,pl:3.64,line:"95运营",diff:"适中",gate:"拉露恩 2 件以上攻击装 / 法系过渡"},
-{id:16244,tier:"A",name:"4主宰艾希95",pr:0.22,top4:61.2,wn:19.1,pl:3.87,line:"95运营",diff:"适中",gate:"艾希 2 件以上攻击装 / 莲华 ≤7 / 经济强化"},
-{id:16285,tier:"A",name:"厄斐豹女",pr:0.60,top4:63.1,wn:8.9,pl:3.96,line:"速升8级",diff:"简单",gate:"厄斐琉斯 3 装 / 奈德丽 3 装 / 物理起手"},
-{id:16241,tier:"A",name:"德莱文95",pr:0.78,top4:54.7,wn:23.5,pl:4.11,line:"95运营",diff:"适中",gate:"德莱文 2 件以上攻击装 / 8 人口 / 经济强化"},
-{id:16233,tier:"A",name:"高森林EZ",pr:0.50,top4:55.7,wn:16.1,pl:4.16,line:"95运营",diff:"适中",gate:"EZ 2 件以上攻击装 / 永恒之森 3+"},
-{id:16297,tier:"A",name:"森林螳螂",pr:0.23,top4:55.7,wn:14.8,pl:4.20,line:"7/8级追三星",diff:"适中",gate:"卡兹克 2 星 3 装 / EZ / 黛安娜 / 卡尔"},
-{id:16266,tier:"A",name:"神谕狐狸",pr:0.48,top4:56.5,wn:11.7,pl:4.20,line:"速升8级",diff:"适中",gate:"阿狸 3 装 / 莫甘娜 / 苍蓝哨戒 / 神谕 3+"},
-{id:16234,tier:"A",name:"黑荆棘裁决",pr:0.78,top4:55.8,wn:11.7,pl:4.23,line:"速升8级",diff:"适中",gate:"索拉卡 2 件以上攻击装 / 法系过渡"},
-{id:16271,tier:"B",name:"高迅射厄斐",pr:0.06,top4:61.3,wn:10.5,pl:4.03,line:"速升8级",diff:"简单",gate:"迅捷射手纹章（缺则不成立）"},
-{id:16264,tier:"B",name:"6护卫蛇女",pr:0.13,top4:56.5,wn:10.7,pl:4.18,line:"7/8级追三星",diff:"适中",gate:"护卫纹章最佳 / 或魔女法系件起手"},
-{id:16281,tier:"B",name:"永森莲华ez",pr:0.06,top4:57.3,wn:9.7,pl:4.19,line:"速升8级",diff:"适中",gate:"永恒之森过渡 / 出场率极低，空位可选"},
-{id:16236,tier:"B",name:"重装厄斐琉斯",pr:1.02,top4:56.1,wn:8.7,pl:4.27,line:"速升8级",diff:"适中",gate:"物理件起手（全表出场率第一）"},
-{id:16253,tier:"B",name:"剑圣",pr:0.11,top4:54.1,wn:9.8,pl:4.32,line:"速升8级",diff:"简单",gate:"易适配神器到手 / 或经济强化"},
-{id:16284,tier:"B",name:"日蚀芸阿娜",pr:0.05,top4:51.0,wn:12.4,pl:4.47,line:"6级追三星",diff:"简单",gate:"芸阿娜 + 1 张灵魂莲华 / 经济强化为前提"},
-{id:16269,tier:"B",name:"宝宝学院阿卡丽",pr:0.06,top4:52.5,wn:8.5,pl:4.41,line:"4/5级追三星",diff:"简单",gate:"宝宝学院海克斯 / 体系牌重复度高"},
-{id:16280,tier:"B",name:"主宰女警",pr:0.09,top4:52.4,wn:7.9,pl:4.44,line:"6/7级追三星",diff:"简单",gate:"3 魔女 / 物理件起手"},
-{id:16257,tier:"B",name:"赌芸阿娜",pr:0.01,top4:51.9,wn:9.4,pl:4.47,line:"6/7级追三星",diff:"简单",gate:"芸阿娜重复度高 / 或经济强化"},
-{id:16270,tier:"C",name:"猎手豹女",pr:0.03,top4:66.4,wn:10.7,pl:3.78,line:"速升8级",diff:"简单",gate:"物理件起手。数值不差但样本极小，黑马位"},
-{id:16219,tier:"C",name:"高野怪驻灵",pr:0.12,top4:51.1,wn:9.5,pl:4.46,line:"95运营",diff:"适中",gate:"驻灵数量多 / 法系件起手"},
-{id:16247,tier:"C",name:"黑荆棘赌狼人",pr:0.10,top4:50.8,wn:5.4,pl:4.54,line:"6/7级追三星",diff:"适中",gate:"沃里克重复度高 / 或适配神器"},
-{id:16260,tier:"C",name:"世纪和解",pr:0.06,top4:42.3,wn:8.7,pl:4.91,line:"7/8级追三星",diff:"适中",gate:"仅世纪和解海克斯一条入场路径"},
-{id:16225,tier:"C",name:"赌提莫",pr:0.05,top4:39.6,wn:3.8,pl:5.04,line:"95运营",diff:"适中",gate:"提莫起手 / 法系件。均名 5.04，负收益"},
-{id:16230,tier:"D",name:"花仙子小炮",pr:0.13,top4:41.9,wn:9.9,pl:4.90,line:"95运营",diff:"适中",gate:"体系牌重复度高且能过渡"},
-{id:16222,tier:"D",name:"森林天使",pr:0.10,top4:45.2,wn:8.9,pl:4.79,line:"95运营",diff:"适中",gate:"体系牌重复度高"},
-{id:16265,tier:"D",name:"7野怪绯红树怪",pr:0.04,top4:54.4,wn:8.4,pl:4.30,line:"6/7级追三星",diff:"简单",gate:"峡谷野怪体系牌重复度高"}
+{id:16219,tier:"A",name:"高野怪驻灵",pr:0.39,top4:56.8,wn:13.5,pl:4.15,line:"",diff:"适中",gate:"驻灵"},
+{id:16222,tier:"C",name:"森林天使",pr:0.30,top4:50.7,wn:12.5,pl:4.48,line:"",diff:"适中",gate:"凯尔"},
+{id:16225,tier:"C",name:"赌提莫",pr:0.05,top4:51.8,wn:7.2,pl:4.44,line:"",diff:"适中",gate:"提莫"},
+{id:16230,tier:"D",name:"花仙子小炮",pr:0.14,top4:38.9,wn:9.4,pl:5.07,line:"",diff:"适中",gate:"崔丝塔娜"},
+{id:16232,tier:"B",name:"重装神谕豹女",pr:0.82,top4:56.4,wn:14.8,pl:4.15,line:"速升8级",diff:"适中",gate:"莫甘娜 / 苍蓝雕纹魔像"},
+{id:16233,tier:"S",name:"高森林EZ",pr:0.77,top4:56.1,wn:16.3,pl:4.13,line:"",diff:"适中",gate:"伊泽瑞尔 / 永恒之森 3+"},
+{id:16234,tier:"A",name:"黑荆棘裁决",pr:0.63,top4:57.0,wn:12.7,pl:4.16,line:"速升8级",diff:"适中",gate:"索拉卡"},
+{id:16236,tier:"B",name:"重装厄斐琉斯",pr:0.98,top4:56.1,wn:9.0,pl:4.26,line:"速升8级",diff:"适中",gate:"厄斐琉斯 / 重装战士 2+"},
+{id:16241,tier:"A",name:"德莱文95",pr:0.87,top4:55.0,wn:23.8,pl:4.08,line:"",diff:"适中",gate:"德莱文 / 人口 8+"},
+{id:16242,tier:"A",name:"拉露恩95",pr:0.56,top4:65.3,wn:20.4,pl:3.68,line:"",diff:"适中",gate:"拉露恩"},
+{id:16244,tier:"B",name:"4主宰艾希95",pr:0.15,top4:59.4,wn:15.7,pl:4.01,line:"",diff:"适中",gate:"艾希 / 莲华 7-"},
+{id:16247,tier:"B",name:"黑荆棘赌狼人",pr:0.08,top4:53.3,wn:8.4,pl:4.38,line:"6/7级追三星",diff:"适中",gate:"沃里克"},
+{id:16253,tier:"B",name:"剑圣",pr:0.11,top4:52.8,wn:9.6,pl:4.38,line:"",diff:"简单",gate:"易 / 适应者 2+"},
+{id:16257,tier:"C",name:"赌芸阿娜",pr:0.03,top4:51.1,wn:10.2,pl:4.49,line:"6/7级追三星",diff:"简单",gate:"芸阿娜 / 阿利斯塔"},
+{id:16260,tier:"D",name:"世纪和解",pr:0.06,top4:45.1,wn:9.9,pl:4.75,line:"",diff:"适中",gate:"卡兹克 2+星 / 雷恩加尔 2+星"},
+{id:16264,tier:"B",name:"6护卫蛇女",pr:0.13,top4:56.1,wn:10.9,pl:4.19,line:"7/8级追三星",diff:"适中",gate:"护卫 6 / 卡西奥佩娅 3装"},
+{id:16265,tier:"B",name:"7野怪绯红树怪",pr:0.14,top4:62.7,wn:13.0,pl:3.89,line:"6/7级追三星",diff:"简单",gate:"绯红树怪 3星 3装 / 峡谷野怪 7+"},
+{id:16266,tier:"A",name:"神谕狐狸",pr:0.47,top4:56.0,wn:11.6,pl:4.22,line:"速升8级",diff:"适中",gate:"阿狸 3装 / 莫甘娜 / 苍蓝雕纹魔像 / 神谕 3+"},
+{id:16269,tier:"B",name:"宝宝学院阿卡丽",pr:0.09,top4:57.8,wn:11.5,pl:4.14,line:"4/5级追三星",diff:"简单",gate:"阿卡丽 3+星 3装 / 卡蜜尔 3星"},
+{id:16270,tier:"B",name:"猎手豹女",pr:0.01,top4:66.9,wn:10.8,pl:3.74,line:"速升8级",diff:"简单",gate:"奈德丽 2星 3装 / 希维尔 3装 / 夜之锋刃"},
+{id:16271,tier:"A",name:"高迅射厄斐",pr:0.05,top4:63.9,wn:11.4,pl:3.88,line:"速升8级",diff:"简单",gate:"迅捷射手 5 / 厄斐琉斯 3装 / 迅捷射手纹章"},
+{id:16280,tier:"C",name:"主宰女警",pr:0.05,top4:45.4,wn:6.3,pl:4.78,line:"6/7级追三星",diff:"简单",gate:"凯特琳 2+星 3装 / 主宰 4+"},
+{id:16281,tier:"A",name:"永森莲华ez",pr:0.11,top4:57.7,wn:9.3,pl:4.19,line:"速升8级",diff:"适中",gate:"灵魂莲华 3+ / 永恒之森 5- / 伊泽瑞尔 3装"},
+{id:16284,tier:"D",name:"日蚀芸阿娜",pr:0.04,top4:55.0,wn:13.0,pl:4.27,line:"",diff:"简单",gate:"芸阿娜 2+星 3装 / 瑟庄妮 2+星 3装"},
+{id:16285,tier:"A",name:"厄斐豹女",pr:0.54,top4:62.6,wn:8.3,pl:3.99,line:"速升8级",diff:"简单",gate:"厄斐琉斯 3装 / 奈德丽 3装"},
+{id:16286,tier:"B",name:"森林小法",pr:0.20,top4:66.5,wn:20.0,pl:3.62,line:"4/5级追三星",diff:"适中",gate:"维迦 3星 / 奥恩 3星 / 乐芙兰 3星"},
+{id:16287,tier:"C",name:"地狱火艾希",pr:0.12,top4:52.4,wn:17.0,pl:4.28,line:"速升8级",diff:"简单",gate:"艾希 / 地狱火纹章"},
+{id:16293,tier:"B",name:"赌沙皇",pr:0.02,top4:56.3,wn:12.9,pl:4.18,line:"6/7级追三星",diff:"适中",gate:"阿兹尔 2+星 3装 / 卡兹克 / 灵魂莲华 3"},
+{id:16294,tier:"S",name:"黑暗仪式伊莉丝",pr:0.26,top4:42.9,wn:15.7,pl:4.83,line:"6/7级追三星",diff:"适中",gate:"伊莉丝 / 卡西奥佩娅 / 莫甘娜"},
+{id:16296,tier:"S",name:"6主宰婕拉",pr:0.23,top4:59.0,wn:13.4,pl:4.04,line:"速升8级",diff:"简单",gate:"主宰 6 / 婕拉 2星 3装"},
+{id:16297,tier:"S",name:"森林螳螂",pr:0.28,top4:58.2,wn:15.5,pl:4.08,line:"7/8级追三星",diff:"适中",gate:"卡兹克 2+星 3装 / 伊泽瑞尔 / 黛安娜 / 赫卡里姆"},
+{id:16298,tier:"A",name:"黑荆棘运营沙皇",pr:0.09,top4:60.5,wn:17.4,pl:3.94,line:"速升8级",diff:"简单",gate:"黑荆棘纹章 / 阿兹尔 2+星 3装 / 黑荆棘 4+"},
+{id:16299,tier:"S",name:"护卫沙皇拼多多",pr:0.02,top4:57.7,wn:16.2,pl:4.06,line:"7/8级追三星",diff:"简单",gate:"拉莫斯 2+星 / 阿兹尔 2+星 3装 / 卡兹克 2+星"},
+{id:16315,tier:"A",name:"日月厄斐",pr:0.02,top4:53.1,wn:11.5,pl:4.35,line:"速升8级",diff:"简单",gate:"厄斐琉斯 / 月蚀骑士纹章 / 日蚀骑士 3"},
+{id:16316,tier:"A",name:"黄铜AP豹女",pr:0.00,top4:45.4,wn:7.4,pl:4.66,line:"",diff:"简单",gate:"莉莉娅 / 奈德丽 3装 / 克格莫 / 费德提克"}
+];
+
+// 开局信号 → 阵容。门票取自 team/strategy 的 conditions.filterOptionResults，
+// 图标为 static.datatft.com/images/equips/{id}.png。
+// targets 里 need 是该阵要求的具体门槛，逐行显示，避免把"3+"和"5-"混为一谈。
+const SIGNALS=[
+ {kind:"emblem",icon:33025,name:"黑荆棘纹章",targets:[{id:16298,need:"黑荆棘纹章 + 4+ 黑荆棘"}]},
+ {kind:"emblem",icon:33030,name:"迅捷射手纹章",targets:[{id:16271,need:"迅捷射手纹章 + 5 迅捷射手"}]},
+ {kind:"emblem",icon:33023,name:"地狱火纹章",targets:[{id:16287,need:"地狱火纹章"}]},
+ {kind:"emblem",icon:33020,name:"月蚀骑士纹章",targets:[{id:16315,need:"月蚀骑士纹章 + 3 日蚀骑士"}]},
+ {kind:"artifact",icon:615,name:"夜之锋刃",targets:[{id:16270,need:"夜之锋刃（神器）"}]},
+ {kind:"trait",name:"主宰",targets:[{id:16296,need:"主宰 6"},{id:16280,need:"主宰 4+"}]},
+ {kind:"trait",name:"永恒之森",targets:[{id:16233,need:"永恒之森 3+"},{id:16281,need:"永恒之森 5-"}]},
+ {kind:"trait",name:"灵魂莲华",targets:[{id:16281,need:"灵魂莲华 3+"},{id:16293,need:"灵魂莲华 3"}]},
+ {kind:"trait",name:"黑荆棘",targets:[{id:16298,need:"黑荆棘 4+"}]},
+ {kind:"trait",name:"重装战士",targets:[{id:16236,need:"重装战士 2+"}]},
+ {kind:"trait",name:"莲华",targets:[{id:16244,need:"莲华 7-"}]},
+ {kind:"trait",name:"适应者",targets:[{id:16253,need:"适应者 2+"}]},
+ {kind:"trait",name:"护卫",targets:[{id:16264,need:"护卫 6"}]},
+ {kind:"trait",name:"峡谷野怪",targets:[{id:16265,need:"峡谷野怪 7+"}]},
+ {kind:"trait",name:"神谕",targets:[{id:16266,need:"神谕 3+"}]},
+ {kind:"trait",name:"迅捷射手",targets:[{id:16271,need:"迅捷射手 5"}]},
+ {kind:"trait",name:"日蚀骑士",targets:[{id:16315,need:"日蚀骑士 3"}]}
 ];
 
 const tb=document.getElementById('tb'), cnt=document.getElementById('count');
@@ -468,7 +588,7 @@ function render(){
     <td class="n">${d.top4.toFixed(1)}</td>
     <td class="n">${d.wn.toFixed(1)}</td>
     <td class="n hl">${d.pl.toFixed(2)}</td>
-    <td class="line-tag">${esc(d.line)}</td>
+    <td class="line-tag">${d.line?esc(d.line):'<span class="unlabeled">未标注</span>'}</td>
     <td class="line-tag">${esc(d.diff)}</td>
     <td class="gate">${esc(d.gate)}</td>
   </tr>`;}).join('');
@@ -497,6 +617,71 @@ document.querySelectorAll('th[data-k]').forEach(th=>th.addEventListener('click',
   if(sortKey===k) sortAsc=!sortAsc; else {sortKey=k; sortAsc=(k==='pl'||k==='tier');}
   render();
 }));
+
+// ---- 开局信号 → 定阵 ----
+const byId = Object.fromEntries(DATA.map(d => [d.id, d]));
+const pickBox = document.getElementById('pick-result');
+let activeSig = null;
+
+function chipHtml(s, i) {
+  const cls = (s.kind === 'emblem' || s.kind === 'artifact') ? 'iconchip' : 'textchip';
+  // 不设 loading="lazy"：隐藏/零尺寸视口下懒加载可能永不触发，5 个小图标没必要懒加载。
+  const img = s.icon
+    ? '<img src="https://static.datatft.com/images/equips/' + s.icon + '.png" alt="" width="30" height="30" ' +
+      'onerror="this.closest(\'.iconchip\').classList.add(\'noimg\');this.remove()">'
+    : '';
+  return '<button class="' + cls + '" data-i="' + i + '">' + img + '<span>' + esc(s.name) + '</span></button>';
+}
+
+function renderResult(s) {
+  const list = s.targets.map(t => ({ d: byId[t.id], need: t.need }))
+    .filter(o => o.d).sort((a, b) => a.d.pl - b.d.pl);
+  if (!list.length) { pickBox.innerHTML = '<p class="pick-empty">没有匹配到阵容。</p>'; return; }
+  const kindTxt = s.kind === 'trait' ? '羁绊门槛' : (s.kind === 'artifact' ? '关键装备' : '转职纹章');
+  const head = '<p class="pick-head">开局拿到 <b>' + esc(s.name) + '</b>（' + kindTxt + '）→ 门票命中 <b>' +
+    list.length + '</b> 套阵，按平均排名排序：</p>';
+  const rows = list.map((o, i) => {
+    const d = o.d;
+    const why = i === 0
+      ? (list.length > 1 ? '同一羁绊族里当前数值最好的一套，优先定它。' : '18.4b 榜单里只有这套阵把它写进门票。')
+      : '同族次选；除非前一套被抢或多套牌型更顺，否则不优先。';
+    const warn = (d.pl >= 4.5 || d.tier === 'D')
+      ? ' <span class="risk">当前数值偏弱（均名 ' + d.pl.toFixed(2) + '），不足以单独作为定阵理由。</span>' : '';
+    return '<a class="pick-row' + (i === 0 ? ' best' : '') + '" href="' + esc(BASE + d.id) + '" target="_blank" rel="noopener noreferrer">' +
+      '<div class="pick-main">' +
+      '<div class="pick-name"><span class="tier T-' + d.tier + '">' + d.tier + '</span>' + esc(d.name) +
+      (i === 0 ? '<span class="pick-flag">数据推荐</span>' : '') + '</div>' +
+      '<div class="pick-stats">均名 <b>' + d.pl.toFixed(2) + '</b> · 前四 ' + d.top4.toFixed(1) + '% · 登顶 ' + d.wn.toFixed(1) +
+      '% · 出场 ' + d.pr.toFixed(2) + '% · <b>该阵要求 ' + esc(o.need) + '</b></div>' +
+      '<div class="pick-why">' + why + warn + '</div>' +
+      '</div></a>';
+  }).join('');
+  pickBox.innerHTML = head + rows;
+}
+
+document.querySelectorAll('.chiprow').forEach(row => {
+  const wantTrait = row.id === 'row-trait';
+  row.innerHTML = SIGNALS.map((s, i) => ({ s, i }))
+    .filter(o => (o.s.kind === 'trait') === wantTrait)
+    .map(o => chipHtml(o.s, o.i)).join('');
+});
+
+document.querySelectorAll('#pick .iconchip, #pick .textchip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const s = SIGNALS[Number(btn.dataset.i)];
+    const wasOn = btn.classList.contains('on');
+    document.querySelectorAll('#pick .iconchip, #pick .textchip').forEach(b => b.classList.remove('on'));
+    if (wasOn) {
+      activeSig = null;
+      pickBox.innerHTML = '<p class="pick-empty">点上面任意一个图标或标签查看结论。</p>';
+      return;
+    }
+    btn.classList.add('on');
+    activeSig = s;
+    renderResult(s);
+  });
+});
+
 render();
 </script>
 </body>
